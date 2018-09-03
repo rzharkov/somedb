@@ -70,4 +70,17 @@ class TestController extends Controller {
             Log::log( 'Exit' );
         }
     }
+
+    public function actionTestAuth() {
+        Log::log( "Hello, world!" );
+
+        $identity = User::findOne( ['username' => 'admin' ] );
+
+        $res = \Yii::$app->getSecurity()->validatePassword( '123456', $identity->password_hash );
+
+        var_dump( $res );
+
+        //\Yii::$app->user->login( 'admin' );
+
+    }
 }
