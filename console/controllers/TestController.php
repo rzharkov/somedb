@@ -8,7 +8,8 @@
 
 namespace console\controllers;
 
-use app\models\UsersTree;
+use common\models\User;
+use yii;
 use code\console\Controller;
 use code\helpers\DB;
 use code\helpers\Log;
@@ -21,24 +22,52 @@ class TestController extends Controller {
         Log::log( $query[ 0 ][ 'date' ] );
     }
 
-    public function actionUsersTreeChildCountCalc() {
-        $count = 1;
-        while ( $count > 0 ) {
-            DB::begin();
-            $sqlstr = "select id_user, path || '.%' as path from users_tree where child_count is null limit 1000 for update skip locked";
-            $users = DB::query( $sqlstr );
-            $count = count( $users );
-            Log::log( $count );
-            foreach ( $users as $user ) {
-                $sqlstr = "select count(*) as cnt from users_tree where path like :path and id_user != :id_user";
-                $query = DB::query( $sqlstr, [ 'path' => $user[ 'path' ], 'id_user' => $user[ 'id_user' ] ] );
-                $tmp = UsersTree::findOne( [ 'id_user' => $user[ 'id_user' ] ] );
-                //Log::log( $tmp->child_count );
-                $tmp->child_count = $query[ 0 ][ 'cnt' ];
-                //Log::log( $tmp->child_count );
-                $tmp->save();
+    public function actionInitAdmin() {
+        $res = \yii\helpers\Console::input( "Do you realy want to clear and initialize permitions? (y/N)" );
+
+        if ( $res === 'y' ) {
+            Log::log( "Initializing roles" );
+
+            try {
+                DB::begin();
+                $auth = Yii::$app->authManager;
+
+                $auth->removeAll(); //На всякий случай удаляем старые данные из БД...
+
+                $admin = $auth->createRole( 'admin' );
+                $viewer = $auth->createRole( 'viewer' );
+
+                $auth->add( $admin );
+                $auth->add( $viewer );
+
+                $viewAdminPage = $auth->createPermission( 'viewAdminPage' );
+                $viewAdminPage->description = 'Просмотр админки';
+
+                $auth->add( $viewAdminPage );
+
+                $auth->addChild( $admin, $viewAdminPage );
+
+                $user = new User();
+                $user->username = 'admin';
+                $user->password = '123456';
+                $user->email = 'admin@local';
+                $user->generateAuthKey();
+                $user->save();
+
+                $user->refresh();
+
+                $auth->assign( $admin, $user->id );
+
+                //DB::rollback();
+                DB::commit();
+
+            } catch ( \Throwable $e ) {
+                DB::rollback();
+                Log::getUserMessage( $e );
             }
-            DB::commit();
+            Log::log( 'Initializing complete' );
+        } else {
+            Log::log( 'Exit' );
         }
     }
 }
