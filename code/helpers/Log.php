@@ -107,10 +107,10 @@ class Log {
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      * @return string
      */
-    public static function getUserMessage( \Exception $e ) {
+    public static function getUserMessage( \Throwable $e ) {
         $debug_backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 1 );
         $called_from = basename( $debug_backtrace[ 0 ][ 'file' ] ) . ":" . $debug_backtrace[ 0 ][ 'line' ];
 
