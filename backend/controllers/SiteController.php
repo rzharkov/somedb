@@ -101,7 +101,6 @@ class SiteController extends Controller {
         if ( $model->load( Yii::$app->request->post() ) && $model->saveNewPassword() ) {
             return $this->goHome();
         } else {
-            //var_dump( $model->getErrors( ) );
             foreach ( $model->getErrors() as $attribute => $errors ) {
                 foreach ( $errors as $error ) {
                     Yii::$app->session->addFlash( 'error', $error );
