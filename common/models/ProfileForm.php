@@ -12,6 +12,7 @@ use yii\base\Model;
  */
 class ProfileForm extends Model {
     public $username;
+    public $email;
     public $password;
     public $new_password;
     public $retype_new_password;
@@ -21,7 +22,8 @@ class ProfileForm extends Model {
 
     function __construct() {
         parent::__construct();
-        $this->username = \Yii::$app->user->identity->email;
+        $this->username = \Yii::$app->user->identity->username;
+        $this->email = \Yii::$app->user->identity->email;
     }
 
     /**
