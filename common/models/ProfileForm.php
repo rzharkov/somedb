@@ -92,9 +92,9 @@ class ProfileForm extends Model {
                 $user->password = $this->new_password;
 
                 DB::begin();
-                DB::begin();
                 $user->save();
                 DB::commit();
+                //DB::rollback();
 
                 return true;
             } else {
@@ -102,7 +102,7 @@ class ProfileForm extends Model {
             }
         } catch ( \Throwable $e ) {
             DB::rollback();
-            $this->addError( Log::getUserMessage( $e ) );
+            $this->addError( 'save_password_error', Log::getUserMessage( $e ) );
             return false;
         }
     }
