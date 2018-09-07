@@ -30,9 +30,10 @@ class TestController extends Controller {
 
             try {
                 DB::begin();
+
                 $auth = Yii::$app->authManager;
 
-                $auth->removeAll(); //На всякий случай удаляем старые данные из БД...
+                $auth->removeAll();
 
                 $admin = $auth->createRole( 'admin' );
                 $viewer = $auth->createRole( 'viewer' );
@@ -46,6 +47,8 @@ class TestController extends Controller {
                 $auth->add( $viewAdminPage );
 
                 $auth->addChild( $admin, $viewAdminPage );
+
+                DB::query( 'delete from public.user' );
 
                 $user = new User();
                 $user->username = 'admin';

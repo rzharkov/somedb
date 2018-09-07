@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use code\helpers\Flash;
+use code\helpers\FlashHelper;
 use common\widgets\Alert;
 use Yii;
 use yii\web\Controller;
@@ -101,12 +103,7 @@ class SiteController extends Controller {
         if ( $model->load( Yii::$app->request->post() ) && $model->saveNewPassword() ) {
             return $this->goHome();
         } else {
-            foreach ( $model->getErrors() as $attribute => $errors ) {
-                foreach ( $errors as $error ) {
-                    Yii::$app->session->addFlash( 'error', $error );
-                }
-            }
-
+            Flash::AddAll( $model );
             return $this->render( 'profile', [ 'model' => $model ] );
         }
     }

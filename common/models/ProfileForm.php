@@ -3,6 +3,7 @@
 namespace common\models;
 
 use code\helpers\DB;
+use code\helpers\Flash;
 use code\helpers\Log;
 use Yii;
 use yii\base\Model;
@@ -104,7 +105,7 @@ class ProfileForm extends Model {
             }
         } catch ( \Throwable $e ) {
             DB::rollback();
-            $this->addError( 'save_password_error', Log::getUserMessage( $e ) );
+            $this->addError( Flash::ATTRIBUTE_SYSTEM, Log::getUserMessage( $e ) );
             return false;
         }
     }
