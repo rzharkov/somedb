@@ -51,7 +51,7 @@ class UserSearchController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView( $id ) {
-        $model = $this->findModel( $id );
+        $model = $this->findUser( $id );
 
         Flash::AddAll( $model );
 
@@ -87,9 +87,9 @@ class UserSearchController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate( $id ) {
-        $model = $this->findModel( $id );
+        $model = new UserSearchForm( $id );
 
-        if ( $model->load( Yii::$app->request->post() ) && $model->save() ) {
+        if ( $model->load( Yii::$app->request->post() ) && $model->updateUser( $id ) ) {
             return $this->redirect( [ 'view', 'id' => $model->id ] );
         } else {
             Flash::AddAll( $model );
@@ -107,19 +107,15 @@ class UserSearchController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete( $id ) {
-        $model = $this->findModel( $id );
+        $model = new UserSearchForm( $id );
 
-        $res = $model->delete();
-
-        if ( $res === false ) {
-
+        if ( $model->deleteUser( $id ) ) {
+            return $this->redirect( [ 'index' ] );
+        } else {
             Flash::AddAll( $model );
-
             return $this->render( 'view', [
                 'model' => $model,
             ] );
-        } else {
-            return $this->redirect( [ 'index' ] );
         }
     }
 
@@ -127,14 +123,16 @@ class UserSearchController extends Controller {
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return UserSearchForm the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel( $id ) {
-        if ( ( $model = User::findOne( $id ) ) !== null ) {
-            return $model;
+    protected function findUser( $id ) {
+        $model = new UserSearchForm( $id );
+
+        if ( $model === null ) {
+            throw new NotFoundHttpException( 'The requested page does not exist.' );
         }
 
-        throw new NotFoundHttpException( 'The requested page does not exist.' );
+        return $model;
     }
 }
