@@ -42,6 +42,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = ['label' => 'Users', 'url' => ['/user']];
+        $menuItems[] = ['label' => 'UsersNew', 'url' => ['/user-search']];
         $menuItems[] = ['label' => 'Profile', 'url' => ['/site/profile']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
