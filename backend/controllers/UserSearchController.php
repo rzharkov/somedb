@@ -6,6 +6,7 @@ use code\helpers\Flash;
 use Yii;
 use common\models\User;
 use backend\models\UserSearchForm;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,6 +20,21 @@ class UserSearchController extends Controller {
      */
     public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [ 'index', 'view' ],
+                        'allow' => true,
+                        'roles' => [ 'viewAdminPage' ],
+                    ],
+                    [
+                        'actions' => [ 'create', 'update', 'delete' ],
+                        'allow' => true,
+                        'roles' => [ 'admin' ],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -66,10 +82,13 @@ class UserSearchController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        $model = new User();
+        $model = new UserSearchForm();
 
-        if ( $model->load( Yii::$app->request->post() ) && $model->save() ) {
-            return $this->redirect( [ 'view', 'id' => $model->id ] );
+        if ( $model->load( Yii::$app->request->post() ) ) {
+            $id_user = $model->createUser();
+            if ( $id_user !== false ) {
+                return $this->redirect( [ 'view', 'id' => $id_user ] );
+            }
         }
 
         Flash::AddAll( $model );

@@ -157,6 +157,45 @@ class UserSearchForm extends Model {
         }
     }
 
+    public function createUser() {
+        try {
+            if ( $this->validate() ) {
+                $user = new User();
+
+                if ( !$user ) {
+                    throw new \Exception( "user not found", ExceptionHelper::USER_NOT_FOUND );
+                }
+
+                $user->email = $this->email;
+                $user->username = $this->username;
+                $user->status = User::STATUS_ACTIVE;
+                $user->setPassword( $this->new_password );
+                $user->generateAuthKey();
+
+                DB::begin();
+                $res = $user->save();
+
+                if( !$res ) {
+                    $this->addErrors( $user->getErrors() );
+                    throw new \Exception( "User save error", ExceptionHelper::ERROR_GENERAL );
+                }
+
+                $user->refresh();
+
+                //DB::rollback();
+                DB::commit();
+
+                return $user->id;
+            } else {
+                return false;
+            }
+        } catch ( \Throwable $e ) {
+            DB::rollback();
+            $this->addError( Flash::ATTRIBUTE_SYSTEM, Log::getUserMessage( $e ) );
+            return false;
+        }
+    }
+
     public function deleteUser( $id ) {
         try {
             if ( $this->validate() ) {
