@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field( $model, 'name' ) ?>
 
+    <?= $form->field( $model, 'status' ) ?>
+
     <?= $form->field( $model, 'crtime' ) ?>
 
     <div class="form-group">

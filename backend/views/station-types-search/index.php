@@ -27,9 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
+            'status',
             'crtime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
+        'rowOptions' => function ( $model ) {
+            if ( $model->status === 3 ) {
+                return [ 'class' => 'danger' ];
+            }
+        }
     ]); ?>
 </div>

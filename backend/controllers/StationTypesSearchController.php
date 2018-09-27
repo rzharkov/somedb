@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use code\helpers\Flash;
 use Yii;
 use common\models\StationType;
 use backend\models\StationTypesSearchForm;
@@ -59,11 +60,16 @@ class StationTypesSearchController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        $model = new StationType();
+        $model = new StationTypesSearchForm();
 
-        if ( $model->load( Yii::$app->request->post() ) && $model->save() ) {
-            return $this->redirect( [ 'view', 'id' => $model->id ] );
+        if ( $model->load( Yii::$app->request->post() ) ) {
+            $id_station_type = $model->createStationType();
+            if ( $id_station_type !== false ) {
+                return $this->redirect( [ 'view', 'id' => $id_station_type ] );
+            }
         }
+
+        Flash::AddAll( $model );
 
         return $this->render( 'create', [
             'model' => $model,
@@ -97,9 +103,16 @@ class StationTypesSearchController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete( $id ) {
-        $this->findModel( $id )->delete();
+        $model = new StationTypesSearchForm( $id );
 
-        return $this->redirect( [ 'index' ] );
+        if ( $model->deleteStationType( $id ) ) {
+            return $this->redirect( [ 'index' ] );
+        } else {
+            Flash::AddAll( $model );
+            return $this->render( 'view', [
+                'model' => $model,
+            ] );
+        }
     }
 
     /**
