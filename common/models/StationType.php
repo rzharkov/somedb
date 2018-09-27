@@ -37,7 +37,7 @@ class StationType extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'name' => 'Название типа станции',
-            'crtime' => 'Crtime',
+            'crtime' => 'Время добавления в базу',
         ];
     }
 }

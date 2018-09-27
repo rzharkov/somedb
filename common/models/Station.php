@@ -44,7 +44,7 @@ class Station extends \yii\db\ActiveRecord {
             'id_type' => 'Тип измерительной станции из списка station_types',
             'address' => 'Адрес, координаты.',
             'comment' => 'Комментарии',
-            'crtime' => 'Crtime',
+            'crtime' => 'Время добавления в базу',
         ];
     }
 }
