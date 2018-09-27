@@ -15,6 +15,9 @@ use common\models\StationType;
  * StationTypeSearchForm represents the model behind the search form of `common\models\StationType`.
  */
 class StationTypesSearchForm extends Model {
+    const STATUS_DELETED = 3;
+    const STATUS_ACTIVE = 1;
+
     public $id;
     public $name;
     public $status;
@@ -40,8 +43,9 @@ class StationTypesSearchForm extends Model {
      */
     public function rules() {
         return [
-            [ [ 'id' ], 'integer' ],
+            [ [ 'id', 'status' ], 'integer' ],
             [ [ 'name', 'crtime' ], 'safe' ],
+            [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
     }
 
@@ -81,6 +85,7 @@ class StationTypesSearchForm extends Model {
         $query->andFilterWhere( [
             'id' => $this->id,
             'name' => $this->name,
+            'status' => $this->status,
         ] );
 
         $query->andFilterWhere( [ 'ilike', 'name', $this->name ] );
