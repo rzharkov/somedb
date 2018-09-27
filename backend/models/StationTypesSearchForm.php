@@ -10,24 +10,40 @@ use common\models\StationType;
 /**
  * StationTypeSearchForm represents the model behind the search form of `common\models\StationType`.
  */
-class StationTypesSearchForm extends Model
-{
+class StationTypesSearchForm extends Model {
+    public $id;
+    public $name;
+    public $crtime;
+
+    private $_station;
+
+    /**
+     * {@inheritdoc}
+     *
+     * UserSearchForm constructor.
+     * @param null $id
+     */
+    function __construct( $id = null ) {
+        parent::__construct();
+        if ( $id !== null ) {
+            $this->getStationType( $id );
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id'], 'integer'],
-            [['name', 'crtime'], 'safe'],
+            [ [ 'id' ], 'integer' ],
+            [ [ 'name', 'crtime' ], 'safe' ],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,32 +55,40 @@ class StationTypesSearchForm extends Model
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search( $params ) {
         $query = StationType::find();
 
         // add conditions that should always apply here
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        $this->load($params);
+        $this->load( $params );
 
-        if (!$this->validate()) {
+        if ( !$this->validate() ) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
+        $query->andFilterWhere( [
             'id' => $this->id,
-            'crtime' => $this->crtime,
-        ]);
+            'name' => $this->name,
+        ] );
 
-        $query->andFilterWhere(['ilike', 'name', $this->name]);
+        $query->andFilterWhere( [ 'ilike', 'name', $this->name ] );
 
         return $dataProvider;
+    }
+
+    public function getStationType( $id ) {
+        $this->_station = StationType::findOne( $id );
+
+        $this->id = $this->_station->id;
+        $this->name = $this->_station->name;
+
+        return $this->_user;
     }
 }
