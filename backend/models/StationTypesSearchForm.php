@@ -23,7 +23,7 @@ class StationTypesSearchForm extends Model {
     public $status;
     public $crtime;
 
-    private $_station;
+    private $_station_type;
 
     /**
      * {@inheritdoc}
@@ -94,13 +94,13 @@ class StationTypesSearchForm extends Model {
     }
 
     public function getStationType( $id ) {
-        $this->_station = StationType::findOne( $id );
+        $this->_station_type = StationType::findOne( $id );
 
-        $this->id = $this->_station->id;
-        $this->name = $this->_station->name;
-        $this->status = $this->_station->status;
+        $this->id = $this->_station_type->id;
+        $this->name = $this->_station_type->name;
+        $this->status = $this->_station_type->status;
 
-        return $this->_station;
+        return $this->_station_type;
     }
 
     public function deleteStationType( $id ) {
