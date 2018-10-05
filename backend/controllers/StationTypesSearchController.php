@@ -36,6 +36,8 @@ class StationTypesSearchController extends Controller {
         $searchModel = new StationTypesSearchForm();
         $dataProvider = $searchModel->search( Yii::$app->request->queryParams );
 
+        Flash::AddAll( $searchModel );
+
         return $this->render( 'index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -49,6 +51,10 @@ class StationTypesSearchController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView( $id ) {
+        $model = $this->findModel( $id );
+
+        Flash::AddAll( $model );
+
         return $this->render( 'view', [
             'model' => $this->findModel( $id ),
         ] );
@@ -88,11 +94,12 @@ class StationTypesSearchController extends Controller {
 
         if ( $model->load( Yii::$app->request->post() ) && $model->save() ) {
             return $this->redirect( [ 'view', 'id' => $model->id ] );
+        } else {
+            Flash::AddAll( $model );
+            return $this->render( 'update', [
+                'model' => $model,
+            ] );
         }
-
-        return $this->render( 'update', [
-            'model' => $model,
-        ] );
     }
 
     /**
