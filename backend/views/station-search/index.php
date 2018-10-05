@@ -8,36 +8,45 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Stations';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params[ 'breadcrumbs' ][] = $this->title;
 ?>
 <div class="station-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( $this->title ) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Station', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a( 'Create Station', [ 'create' ], [ 'class' => 'btn btn-success' ] ) ?>
     </p>
 
-    <?= GridView::widget([
+    <?= GridView::widget( [
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [ 'class' => 'yii\grid\SerialColumn' ],
 
             'id',
             'name',
-            'id_type',
+            [
+                'attribute' => 'id_type',
+                'label' => 'Тип станции',
+                'content' => function ( $data ) {
+                    $tmp = \common\models\StationType::findOne( [ 'id' => $data[ 'id_type' ] ] );
+                    $station_name = $tmp->name;
+
+                    return $station_name;
+                }
+            ],
             'address',
             'comment',
             'crtime',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [ 'class' => 'yii\grid\ActionColumn' ],
         ],
         'rowOptions' => function ( $model ) {
             if ( $model->status === 3 ) {
                 return [ 'class' => 'danger' ];
             }
         }
-    ]); ?>
+    ] ); ?>
 </div>

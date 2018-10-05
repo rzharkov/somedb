@@ -20,6 +20,7 @@ class StationSearchForm extends Model {
     public $name;
     public $status;
     public $crtime;
+    public $id_type;
     public $address;
     public $comment;
 
