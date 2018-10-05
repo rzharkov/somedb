@@ -13,6 +13,7 @@ use Yii;
  * @property string $address Адрес, координаты.
  * @property string $comment Комментарии
  * @property string $crtime
+ * @property int $status
  */
 class Station extends \yii\db\ActiveRecord {
     const STATUS_DELETED = 3;
@@ -32,8 +33,10 @@ class Station extends \yii\db\ActiveRecord {
         return [
             [ [ 'name', 'id_type', 'address' ], 'required' ],
             [ [ 'name', 'address', 'comment' ], 'string' ],
-            [ [ 'id_type' ], 'integer' ],
+            [ [ 'id_type', 'status' ], 'integer' ],
             [ [ 'crtime' ], 'safe' ],
+            [ 'status', 'default', 'value' => self::STATUS_ACTIVE ],
+            [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
     }
 
@@ -48,6 +51,7 @@ class Station extends \yii\db\ActiveRecord {
             'address' => 'Адрес, координаты.',
             'comment' => 'Комментарии',
             'crtime' => 'Время добавления в базу',
+            'status' => 'Status',
         ];
     }
 
