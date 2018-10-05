@@ -12,10 +12,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Station;
 
-/**
- * StationSearchForm represents the model behind the search form of `common\models\Station`.
- */
-class StationSearchForm extends Station {
+class StationSearchForm extends Model {
     const STATUS_DELETED = 3;
     const STATUS_ACTIVE = 1;
 
