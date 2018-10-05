@@ -6,6 +6,7 @@ use code\helpers\Flash;
 use Yii;
 use common\models\StationType;
 use backend\models\StationTypesSearchForm;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,6 +20,21 @@ class StationTypesSearchController extends Controller {
      */
     public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [ 'index', 'view' ],
+                        'allow' => true,
+                        'roles' => [ 'viewAdminPage' ],
+                    ],
+                    [
+                        'actions' => [ 'create', 'update', 'delete' ],
+                        'allow' => true,
+                        'roles' => [ 'admin' ],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -15,6 +15,9 @@ use Yii;
  * @property string $crtime
  */
 class Station extends \yii\db\ActiveRecord {
+    const STATUS_DELETED = 3;
+    const STATUS_ACTIVE = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -46,5 +49,14 @@ class Station extends \yii\db\ActiveRecord {
             'comment' => 'Комментарии',
             'crtime' => 'Время добавления в базу',
         ];
+    }
+
+    /**
+     * Finds Station by id
+     * @param $id
+     * @return Station|null
+     */
+    public static function findById( $id ) {
+        return static::findOne( [ 'id' => $id ] );
     }
 }

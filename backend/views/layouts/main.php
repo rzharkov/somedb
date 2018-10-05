@@ -43,6 +43,9 @@ AppAsset::register( $this );
         $menuItems[] = [ 'label' => 'Login', 'url' => [ '/site/login' ] ];
     } else {
         if ( Yii::$app->user->can( 'viewAdminPage' ) ) {
+            $menuItems[] = [ 'label' => 'Stations', 'url' => [ '/station-search' ] ];
+        }
+        if ( Yii::$app->user->can( 'viewAdminPage' ) ) {
             $menuItems[] = [ 'label' => 'Station types', 'url' => [ '/station-types-search' ] ];
         }
         if ( Yii::$app->user->can( 'viewAdminPage' ) ) {
