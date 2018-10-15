@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use app\models\DataUploadForm;
+use app\models\UploadForm;
 use code\helpers\Flash;
 use code\helpers\FlashHelper;
 use common\widgets\Alert;
@@ -11,6 +13,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use common\models\ProfileForm;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -61,7 +64,20 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        return $this->render( 'index' );
+        $model = new DataUploadForm();
+        if ( Yii::$app->request->isPost ) {
+            $model->file = UploadedFile::getInstance( $model, 'file' );
+
+            if ( $model->file && $model->validate() ) {
+                //var_dump( $model->file );
+                //$model->file->saveAs( 'uploads/' . $model->file->baseName . '.' . $model->file->extension );
+                $file = file_get_contents( $model->file->tempName );
+                var_dump( explode( "\n", $file ) );
+                die();
+            }
+        }
+
+        return $this->render( 'index', [ 'model' => $model ] );
     }
 
     /**

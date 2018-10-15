@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use code\helpers\DB;
 use Yii;
 
 /**
@@ -62,5 +63,23 @@ class Station extends \yii\db\ActiveRecord {
      */
     public static function findById( $id ) {
         return static::findOne( [ 'id' => $id ] );
+    }
+
+    /**
+     * Returns actual list of station types
+     * @return array
+     * @throws \yii\db\Exception
+     */
+    public static function getAvailableList() {
+        $query = DB::query(
+            "select id, name from stations where status = :status order by name",
+            [
+                'status' => self::STATUS_ACTIVE
+            ]
+        );
+        foreach ( $query as $row ) {
+            $res[ $row[ 'id' ] ] = $row[ 'name' ];
+        }
+        return $res;
     }
 }
