@@ -13,6 +13,7 @@ use Yii;
  * @property string $name Пока не понятно что, но заполним названием файла
  * @property string $filename Название файла из которого заливались данные
  * @property int $status
+ * @property string $comment
  * @property string $crtime
  */
 class Uploading extends \yii\db\ActiveRecord {
@@ -29,7 +30,7 @@ class Uploading extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [ [ 'name', 'filename' ], 'required' ],
-            [ [ 'name', 'filename' ], 'string' ],
+            [ [ 'name', 'filename', 'comment' ], 'string' ],
             [ [ 'status' ], 'default', 'value' => 1 ],
             [ [ 'status' ], 'integer' ],
             [ [ 'crtime' ], 'safe' ],
@@ -60,9 +61,17 @@ class Uploading extends \yii\db\ActiveRecord {
     public function Create( $name, $filename, $comment, $data ) {
         if ( !DB::hasBegun() )
             throw new \Exception( 'Transaction must be started to Create the Uploading', ExceptionHelper::ERROR_GENERAL );
-        var_dump( $name );
-        var_dump( $filename );
-        var_dump( $comment );
-        var_dump( $data );
+        $this->name = $name;
+        $this->filename = $filename;
+        $this->comment = $comment;
+
+        $this->save();
+
+        $this->refresh();
+        var_dump( $this );
+
+        var_dump( explode ( ';', $data, 3 ) );
+
+        die();
     }
 }
