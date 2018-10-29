@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use code\helpers\DB;
+use code\helpers\ExceptionHelper;
 use Yii;
 
 /**
@@ -45,5 +47,22 @@ class Uploading extends \yii\db\ActiveRecord {
             'status' => 'Status',
             'crtime' => 'Crtime',
         ];
+    }
+
+    /**
+     * Загружает данные в базу
+     * @param $name
+     * @param $filename
+     * @param $comment
+     * @param $data
+     * @throws \Exception
+     */
+    public function Create( $name, $filename, $comment, $data ) {
+        if ( !DB::hasBegun() )
+            throw new \Exception( 'Transaction must be started to Create the Uploading', ExceptionHelper::ERROR_GENERAL );
+        var_dump( $name );
+        var_dump( $filename );
+        var_dump( $comment );
+        var_dump( $data );
     }
 }

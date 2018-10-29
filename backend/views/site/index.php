@@ -22,6 +22,10 @@ $this->title = yii::$app->name;
 
                 <?= $form->field( $model, 'id_station' )->dropDownList( $model->getAvailableStationsList() ) ?>
 
+                <?= $form->field( $model, 'upload_name' )->textInput() ?>
+
+                <?= $form->field( $model, 'comment' )->textarea( ['rows' => '6'] ) ?>
+
                 <button>Upload</button>
 
                 <?php ActiveForm::end() ?>

@@ -66,14 +66,15 @@ class SiteController extends Controller {
     public function actionIndex() {
         $model = new DataUploadForm();
         if ( Yii::$app->request->isPost ) {
-            $model->file = UploadedFile::getInstance( $model, 'file' );
-
-            if ( $model->file && $model->validate() ) {
-                //var_dump( $model->file );
-                //$model->file->saveAs( 'uploads/' . $model->file->baseName . '.' . $model->file->extension );
-                $file = file_get_contents( $model->file->tempName );
-                var_dump( explode( "\n", $file ) );
-                die();
+            if ( $model->load( Yii::$app->request->post() ) ) {
+                $model->file = UploadedFile::getInstance( $model, 'file' );
+                $model->filename = $model->file->name;
+                if ( $model->file && $model->validate() ) {
+                    $res = $model->Upload();
+                    if ( !$res ) {
+                        Flash::AddAll( $model );
+                    }
+                }
             }
         }
 
