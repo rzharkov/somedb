@@ -49,6 +49,9 @@ AppAsset::register( $this );
             $menuItems[] = [ 'label' => 'Station types', 'url' => [ '/station-types-search' ] ];
         }
         if ( Yii::$app->user->can( 'viewAdminPage' ) ) {
+            $menuItems[] = [ 'label' => 'Measurement intervals', 'url' => [ '/measurement-interval-search' ] ];
+        }
+        if ( Yii::$app->user->can( 'viewAdminPage' ) ) {
             $menuItems[] = [ 'label' => 'Users', 'url' => [ '/user-search' ] ];
         }
         $menuItems[] = [ 'label' => 'Profile', 'url' => [ '/site/profile' ] ];
