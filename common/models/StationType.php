@@ -60,6 +60,7 @@ class StationType extends \yii\db\ActiveRecord {
     /**
      * Returns actual list of station types
      * @return array
+     * @throws \Throwable
      * @throws \yii\db\Exception
      */
     public static function getAvailableList() {
