@@ -6,6 +6,7 @@ use code\helpers\Flash;
 use Yii;
 use common\models\StationType;
 use backend\models\StationTypesSearchForm;
+use yii\db\ActiveRecord;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -72,7 +73,7 @@ class StationTypesSearchController extends Controller {
         Flash::AddAll( $model );
 
         return $this->render( 'view', [
-            'model' => $this->findModel( $id ),
+            'model' => $model,
         ] );
     }
 
@@ -142,7 +143,7 @@ class StationTypesSearchController extends Controller {
      * Finds the StationType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return StationType the loaded model
+     * @return ActiveRecord the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel( $id ) {

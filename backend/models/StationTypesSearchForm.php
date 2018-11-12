@@ -20,6 +20,7 @@ class StationTypesSearchForm extends Model {
 
     public $id;
     public $name;
+    public $measurements_table_name;
     public $status;
     public $crtime;
 
@@ -44,7 +45,9 @@ class StationTypesSearchForm extends Model {
     public function rules() {
         return [
             [ [ 'id', 'status' ], 'integer' ],
-            [ [ 'name', 'crtime' ], 'safe' ],
+            [ [ 'measurements_table_name' ], 'string' ],
+            [ [ 'name', 'measurements_table_name' ], 'required' ],
+            [ [ 'name', 'crtime', 'measurements_table_name' ], 'safe' ],
             [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
     }
@@ -98,6 +101,7 @@ class StationTypesSearchForm extends Model {
 
         $this->id = $this->_station_type->id;
         $this->name = $this->_station_type->name;
+        $this->measurements_table_name = $this->_station_type->measurements_table_name;
         $this->status = $this->_station_type->status;
 
         return $this->_station_type;

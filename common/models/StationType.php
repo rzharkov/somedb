@@ -29,9 +29,9 @@ class StationType extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [ [ 'name' ], 'required' ],
-            [ [ 'name' ], 'string' ],
-            [ [ 'crtime' ], 'safe' ],
+            [ [ 'name', 'measurements_table_name' ], 'required' ],
+            [ [ 'name', 'measurements_table_name', 'data_format' ], 'string' ],
+            [ [ 'crtime', 'data_format', 'measurements_table_name' ], 'safe' ],
             [ 'status', 'default', 'value' => self::STATUS_ACTIVE ],
             [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
@@ -44,17 +44,31 @@ class StationType extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'name' => 'Название типа станции',
+            'status' => 'Статус',
+            'data_format' => 'Формат и описание данных',
+            'measurements_table_name' => 'Таблица с данными измерений',
             'crtime' => 'Время добавления в базу',
         ];
     }
 
     /**
-     * Finds Station Type by id
+     * Finds the station by id
      * @param $id
-     * @return StationType|null
+     * @return null|\yii\db\ActiveRecord
      */
     public static function findById( $id ) {
-        return static::findOne( [ 'id' => $id ] );
+        $res = static::findOne( [ 'id' => $id ] );
+        return $res;
+    }
+
+    /**
+     * Finds a station
+     * @param $condition
+     * @return null|\yii\db\ActiveRecord
+     */
+    public static function findOne( $condition ) {
+        $res = parent::findOne( $condition );
+        return $res;
     }
 
     /**

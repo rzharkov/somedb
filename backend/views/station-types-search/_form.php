@@ -13,6 +13,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field( $model, 'name' )->textInput() ?>
+    <?= $form->field( $model, 'measurements_table_name' )->textInput() ?>
     <?= $form->field( $model, 'status' )->textInput() ?>
 
     <div class="form-group">

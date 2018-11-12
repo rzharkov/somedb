@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
+    <?= $form->field( $model, 'measurements_table_name' )->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton( 'Save', [ 'class' => 'btn btn-success' ] ) ?>
     </div>
