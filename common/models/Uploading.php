@@ -66,7 +66,7 @@ class Uploading extends \yii\db\ActiveRecord {
      */
     public function Create( $name, $id_station, $id_measurement_interval, $filename, $comment, $data ) {
         if ( !DB::hasBegun() )
-            throw new \Exception( 'Transaction must be started to Create the Uploading', ExceptionHelper::ERROR_GENERAL );
+            throw new \Exception( 'Transaction must be started to create the Uploading', ExceptionHelper::ERROR_GENERAL );
         $this->name = $name;
         $this->id_station = $id_station;
         $this->id_measurement_interval = $id_measurement_interval;
@@ -74,11 +74,30 @@ class Uploading extends \yii\db\ActiveRecord {
         $this->comment = $comment;
 
         $this->save();
-
         $this->refresh();
-        var_dump( $this );
 
-        var_dump( explode ( ';', $data, 3 ) );
+        //Добудем сопоставление колонок файла и полей в базе
+        $station = Station::findById( $this->id_station );
+        if ( $station === null  ) {
+            throw new \Exception( "Станция с идентификатором '{$this->id_station}' не найдена", ExceptionHelper::STATION_NOT_FOUND );
+        }
+        $station_type = StationType::findById( $station->id_type );
+        if ( $station_type === null  ) {
+            throw new \Exception( "Кривой идентификатор типа станции '{$station->id_type}'", ExceptionHelper::STATION_NOT_FOUND );
+        }
+
+        //var_dump( $station_type->data_format['Tens30.1'] );
+
+        $tmp_data = [];
+        foreach ( $data as $data_row ) {
+            $tmp_data[] = explode( "\t", $data_row );
+        }
+
+        //Проверям входные данные
+        //Первая и вторая колонка - дата и время.
+        var_dump( $tmp_data );
+
+        //var_dump( explode ( ';', $data, 3 ) );
 
         die();
     }

@@ -22,6 +22,7 @@ class StationSearchForm extends Model {
     public $crtime;
     public $id_type;
     public $address;
+    public $timezone;
     public $comment;
 
     private $_station;
@@ -45,7 +46,7 @@ class StationSearchForm extends Model {
     public function rules() {
         return [
             [ [ 'id', 'id_type', 'status' ], 'integer' ],
-            [ [ 'name', 'address', 'comment', 'crtime' ], 'safe' ],
+            [ [ 'name', 'address', 'comment', 'crtime', 'timezone' ], 'safe' ],
             [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
     }
@@ -117,6 +118,7 @@ class StationSearchForm extends Model {
         $this->status = $this->_station->status;
         $this->crtime = $this->_station->crtime;
         $this->address = $this->_station->address;
+        $this->timezone = $this->_station->timezone;
         $this->comment = $this->_station->comment;
 
         return $this->_station;
@@ -134,6 +136,7 @@ class StationSearchForm extends Model {
                 $station->name = $this->name;
                 $station->address = $this->address;
                 $station->comment = $this->comment;
+                $station->timezone = $this->timezone;
                 $station->id_type = $this->id_type;
 
                 DB::begin();
@@ -172,6 +175,7 @@ class StationSearchForm extends Model {
                 $station->name = $this->name;
                 $station->address = $this->address;
                 $station->comment = $this->comment;
+                $station->timezone = $this->timezone;
                 $station->id_type = $this->id_type;
                 $station->status = $this->status;
 

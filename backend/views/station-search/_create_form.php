@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_type')->dropDownList( $model->getAvailableStationTypesList() ) ?>
 
+    <?= $form->field($model, 'timezone')->textInput() ?>
+
     <?= $form->field($model, 'address')->textInput() ?>
 
     <?= $form->field($model, 'comment')->textInput() ?>

@@ -11,6 +11,8 @@ use Yii;
  * @property int $id
  * @property string $name Название типа станции
  * @property integer $status
+ * @property string $data_format
+ * @property string $measurements_table_name
  * @property string $crtime
  */
 class StationType extends \yii\db\ActiveRecord {
@@ -68,6 +70,15 @@ class StationType extends \yii\db\ActiveRecord {
      */
     public static function findOne( $condition ) {
         $res = parent::findOne( $condition );
+        if ( $res->data_format ) {
+            $map_array = [];
+            foreach ( $res->data_format as $row_format ) {
+                foreach ( $row_format as $ident => $value ) {
+                    $map_array[ $ident ] = $value;
+                }
+            }
+            $res->data_format = $map_array;
+        }
         return $res;
     }
 

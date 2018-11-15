@@ -13,6 +13,7 @@ use Yii;
  * @property int $id_type Тип измерительной станции из списка station_types
  * @property string $address Адрес, координаты.
  * @property string $comment Комментарии
+ * @property string $timezone
  * @property string $crtime
  * @property int $status
  */
@@ -33,7 +34,8 @@ class Station extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [ [ 'name', 'id_type', 'address' ], 'required' ],
-            [ [ 'name', 'address', 'comment' ], 'string' ],
+            [ [ 'name', 'address', 'comment', 'timezone' ], 'string' ],
+            [ 'timezone', 'match', 'pattern' => '#^[\+|\-][0-9]+$#' ],
             [ [ 'id_type', 'status' ], 'integer' ],
             [ [ 'crtime' ], 'safe' ],
             [ 'status', 'default', 'value' => self::STATUS_ACTIVE ],
@@ -47,11 +49,12 @@ class Station extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'name' => 'Условное название измерительной станции',
+            'name' => 'Название станции',
             'id_type' => 'Тип измерительной станции из списка station_types',
             'address' => 'Адрес, координаты.',
             'comment' => 'Комментарии',
             'crtime' => 'Время добавления в базу',
+            'timezone' => 'Часовой пояс',
             'status' => 'Status',
         ];
     }

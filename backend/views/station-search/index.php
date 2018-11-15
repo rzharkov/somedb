@@ -37,6 +37,7 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
                     return $station_name;
                 }
             ],
+            'timezone',
             'address',
             'comment',
             'crtime',

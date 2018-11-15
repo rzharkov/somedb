@@ -83,7 +83,7 @@ class DataUploadForm extends Model {
     public function Upload() {
         try {
             DB::begin();
-            $data = file_get_contents( $this->file->tempName );
+            $data = file( $this->file->tempName );
             $uploading = new Uploading();
 
             $uploading->Create( $this->upload_name, $this->id_station, $this->id_measurement_interval, $this->filename, $this->comment, $data );

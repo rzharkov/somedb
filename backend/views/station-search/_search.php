@@ -21,6 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id_type') ?>
 
+    <?= $form->field($model, 'timezone') ?>
+
     <?= $form->field($model, 'address') ?>
 
     <?= $form->field($model, 'comment') ?>
