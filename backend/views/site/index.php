@@ -36,3 +36,10 @@ $this->title = yii::$app->name;
 
     </div>
 </div>
+<script language="JavaScript">
+    document.getElementById("datauploadform-file").onchange = function() {
+        if ( typeof document.getElementById("datauploadform-file").files[0].name !== "undefined" ) {
+            document.getElementById("datauploadform-upload_name").value = document.getElementById("datauploadform-file").files[0].name;
+        }
+    };
+</script>

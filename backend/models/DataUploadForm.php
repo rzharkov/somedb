@@ -86,8 +86,9 @@ class DataUploadForm extends Model {
             $data = file_get_contents( $this->file->tempName );
             $uploading = new Uploading();
 
-            $uploading->Create( $this->upload_name, $this->filename, $this->comment, $data );
+            $uploading->Create( $this->upload_name, $this->id_station, $this->id_measurement_interval, $this->filename, $this->comment, $data );
 
+            //DB::commit();
             DB::rollback();
             return true;
         } catch ( \Throwable $e ) {
