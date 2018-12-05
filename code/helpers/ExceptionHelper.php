@@ -25,4 +25,5 @@ class ExceptionHelper
     const INVALID_GA_CODE = 6;
     const PASSWORDS_NOT_EQUAL = 7;
     const NEW_PASSWORD_IS_EMPTY = 8;
+    const FIELD_NOT_FOUND = 9;
 }

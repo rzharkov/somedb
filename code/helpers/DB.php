@@ -56,7 +56,7 @@ class DB {
      * @param array $params
      * @param null $fetchMode
      * @return array
-     * @throws \yii\db\Exception | \Throwable
+     * @throws \Throwable
      */
     public static function query( $sql, $params = [], $fetchMode = null ) {
         try {
