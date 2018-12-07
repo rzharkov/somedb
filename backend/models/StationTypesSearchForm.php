@@ -86,7 +86,6 @@ class StationTypesSearchForm extends Model {
         // grid filtering conditions
         $query->andFilterWhere( [
             'id' => $this->id,
-            'name' => $this->name,
             'status' => $this->status,
         ] );
 

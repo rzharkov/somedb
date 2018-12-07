@@ -71,7 +71,7 @@ class Station extends \yii\db\ActiveRecord {
     /**
      * Returns actual list of station types
      * @return array
-     * @throws \yii\db\Exception
+     * @throws \Throwable
      */
     public static function getAvailableList() {
         $query = DB::query(

@@ -35,7 +35,8 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
                     $station_name = $tmp->name;
 
                     return $station_name;
-                }
+                },
+                'filter' => $searchModel->getAvailableStationTypesList(),
             ],
             'timezone',
             'address',

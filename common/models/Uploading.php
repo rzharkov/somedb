@@ -55,6 +55,15 @@ class Uploading extends \yii\db\ActiveRecord {
     }
 
     /**
+     * Finds Uploading by id
+     * @param $id
+     * @return Uploading|null
+     */
+    public static function findById( $id ) {
+        return static::findOne( [ 'id' => $id ] );
+    }
+
+    /**
      * Загружает данные в базу
      * @param $name
      * @param $id_station

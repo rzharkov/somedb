@@ -207,7 +207,7 @@ class StationSearchForm extends Model {
                 $station = Station::findById( $id );
 
                 if ( !$station ) {
-                    throw new \Exception( "user not found", ExceptionHelper::USER_NOT_FOUND );
+                    throw new \Exception( "station not found", ExceptionHelper::STATION_NOT_FOUND );
                 }
 
                 $station->status = Station::STATUS_DELETED;
@@ -217,7 +217,7 @@ class StationSearchForm extends Model {
 
                 if( !$res ) {
                     $this->addErrors( $station->getErrors() );
-                    throw new \Exception( "User save error", ExceptionHelper::ERROR_GENERAL );
+                    throw new \Exception( "Station save error", ExceptionHelper::ERROR_GENERAL );
                 }
 
                 DB::commit();
