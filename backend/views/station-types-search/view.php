@@ -36,13 +36,15 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
                 $data_format = $model['data_format'];
                 $data_format_text = "";
                 if ( $data_format ) {
-                    foreach ( $data_format as $row ) {
+                    foreach ( $data_format as $key => $row ) {
+                        $data_format_text .= $key . "\n";
                         foreach ( $row as $Field => $Format ) {
-                            $data_format_text .= "<p>" . $Field . " => " . $Format[ 'column_name' ] . " ( " . $Format[ 'unit' ] . " )<br/>" . $Format[ 'description' ] . "</p>";
+                            $data_format_text .= $Field . ( strlen( $Field ) > 4 ? "\t" : "\t\t" ) . $Format . "\n";
                         }
+                        $data_format_text .= "\n";
                     }
                 }
-                return $data_format_text;
+                return "<pre>" . $data_format_text . "</pre>";
             },
             'format' => 'raw'
             ],

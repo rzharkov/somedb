@@ -62,7 +62,7 @@ class Uploading extends \yii\db\ActiveRecord {
      * @param $filename
      * @param $comment
      * @param $data
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function Create( $name, $id_station, $id_measurement_interval, $filename, $comment, $data ) {
         if ( !DB::hasBegun() )
@@ -114,6 +114,7 @@ class Uploading extends \yii\db\ActiveRecord {
             $sql_parameters[$station_type['data_format']['DateTime']['column_name']] = $tmp_data[$i][0] . 'T' . $tmp_data[$i][1] . $station->timezone;
             for ( $j = 2; $j < count( $tmp_data[0] ); $j++ ) {
                 //Несколько полей есть в файле данных, но не предусмотрены к загрузке
+                //Мега-производительность не требуется, поэтому SQL будем генерировать каждый раз заново. Это если кто-то захочет оптимизаций
                 if ( array_key_exists( $tmp_data[0][$j], $station_type['data_format'] ) ) {
                     $sqlstr_header .= $station_type[ 'data_format' ][ $tmp_data[ 0 ][ $j ] ][ 'column_name' ];
                     $sqlstr_footer .= ":{$station_type['data_format'][$tmp_data[0][$j]]['column_name']}";

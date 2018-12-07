@@ -46,7 +46,6 @@ class StationTypesSearchForm extends Model {
         return [
             [ [ 'id', 'status' ], 'integer' ],
             [ [ 'measurements_table_name' ], 'string' ],
-            [ [ 'name', 'measurements_table_name' ], 'required' ],
             [ [ 'name', 'crtime', 'measurements_table_name' ], 'safe' ],
             [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];

@@ -73,6 +73,8 @@ class SiteController extends Controller {
                     $res = $model->Upload();
                     if ( !$res ) {
                         Flash::AddAll( $model );
+                    } else {
+                        \Yii::$app->session->addFlash( 'success', 'Файл "' . $model->filename . '" успешно загружен' );
                     }
                 }
             }
