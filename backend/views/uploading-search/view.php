@@ -10,7 +10,7 @@ $this->title = $model->id . ': ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Uploadings', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="station-view">
+<div class="uploading-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

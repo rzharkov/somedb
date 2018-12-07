@@ -26,7 +26,7 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
             'comment',
             'crtime',
 
-            [ 'class' => 'yii\grid\ActionColumn' ],
+            [ 'class' => 'yii\grid\ActionColumn', 'template' => '{view} {delete}' ],
         ],
     ] ); ?>
 </div>
