@@ -19,6 +19,9 @@ use Yii;
  * @property string $crtime
  */
 class Uploading extends \yii\db\ActiveRecord {
+    const STATUS_DELETED = 3;
+    const STATUS_ACTIVE = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -45,8 +48,8 @@ class Uploading extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'name' => 'Пока не понятно что, но заполним названием файла',
-            'filename' => 'Название файла из которого заливались данные',
+            'name' => 'Название загрузки',
+            'filename' => 'Название исходного файла',
             'id_station' => 'Идентификатор ищмерительной станции',
             'id_measurement_interval' => 'Идентификатор интервала измерений',
             'status' => 'Status',

@@ -15,6 +15,7 @@ class ExceptionHelper
     const NOT_SUPPORTED = -22;
     const USER_NOT_FOUND = -23;
     const STATION_NOT_FOUND = -24;
+    const UPLOADING_NOT_FOUND = -25;
 
     const CODE_SYSTEM_ERROR = -999;
     const INVALID_QUEUE_ITEM = -100;

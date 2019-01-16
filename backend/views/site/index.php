@@ -26,7 +26,7 @@ $this->title = yii::$app->name;
 
                 <?= $form->field( $model, 'upload_name' )->textInput() ?>
 
-                <?= $form->field( $model, 'comment' )->textarea( ['rows' => '6'] ) ?>
+                <?= $form->field( $model, 'comment' )->textarea( [ 'rows' => '6' ] ) ?>
 
                 <button>Upload</button>
 
@@ -37,9 +37,25 @@ $this->title = yii::$app->name;
     </div>
 </div>
 <script language="JavaScript">
-    document.getElementById("datauploadform-file").onchange = function() {
-        if ( typeof document.getElementById("datauploadform-file").files[0].name !== "undefined" ) {
-            document.getElementById("datauploadform-upload_name").value = document.getElementById("datauploadform-file").files[0].name;
+    document.getElementById("datauploadform-file").onchange = function () {
+        if (typeof document.getElementById("datauploadform-file").files[0].name !== "undefined") {
+            //заполним по возсожности поля для ввода
+            combobox = document.getElementById("datauploadform-id_measurement_interval");
+            filename = document.getElementById("datauploadform-file").files[0].name;
+            filename_without_extension = filename.split('.').slice(0, -1).join('.');
+
+            if ( filename_without_extension.length > 0 ) {
+                document.getElementById("datauploadform-upload_name").value = filename_without_extension;
+            } else {
+                document.getElementById("datauploadform-upload_name").value = filename;
+            }
+
+            for (var i = 0; i <= combobox.options.length - 1; i++) {
+                tmp = filename.toLowerCase().indexOf(combobox.options[i].text.toLowerCase());
+                if (tmp >= 0) {
+                    combobox.value = combobox.options[i].value;
+                }
+            }
         }
     };
 </script>

@@ -17,11 +17,9 @@ class UploadingSearchForm extends Model {
 
     public $id;
     public $name;
+    public $filename;
     public $status;
     public $crtime;
-    public $id_type;
-    public $address;
-    public $timezone;
     public $comment;
 
     private $_uploading;
@@ -44,8 +42,8 @@ class UploadingSearchForm extends Model {
      */
     public function rules() {
         return [
-            [ [ 'id', 'id_type', 'status' ], 'integer' ],
-            [ [ 'name', 'address', 'comment', 'crtime', 'timezone' ], 'safe' ],
+            [ [ 'id', 'status' ], 'integer' ],
+            [ [ 'name', 'filename', 'comment', 'crtime' ], 'safe' ],
             [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
     }
@@ -88,15 +86,21 @@ class UploadingSearchForm extends Model {
             'crtime' => $this->crtime,
         ] );
 
-        $query->andFilterWhere( [ 'ilike', 'name', $this->name ] );
-            //->andFilterWhere( [ 'ilike', 'address', $this->address ] )
-            //->andFilterWhere( [ 'ilike', 'comment', $this->comment ] );
+        $query->andFilterWhere( [ 'ilike', 'name', $this->name ] )
+            ->andFilterWhere( [ 'ilike', 'filename', $this->filename ] )
+            ->andFilterWhere( [ 'ilike', 'comment', $this->comment ] );
 
         return $dataProvider;
     }
 
     public function getUploading( $id ) {
         $this->_uploading = Uploading::findOne( $id );
+
+        $this->id = $this->_uploading->id;
+        $this->name = $this->_uploading->name;
+        $this->comment = $this->_uploading->comment;
+        $this->crtime = $this->_uploading->crtime;
+        $this->status = $this->_uploading->status;
 
         return $this->_uploading;
     }
@@ -107,7 +111,7 @@ class UploadingSearchForm extends Model {
                 $uploading = Uploading::findById( $id );
 
                 if ( !$uploading ) {
-                    throw new \Exception( "user not found", ExceptionHelper::USER_NOT_FOUND );
+                    throw new \Exception( "uploading not found", ExceptionHelper::UPLOADING_NOT_FOUND );
                 }
 
                 $uploading->status = Uploading::STATUS_DELETED;
@@ -117,8 +121,17 @@ class UploadingSearchForm extends Model {
 
                 if( !$res ) {
                     $this->addErrors( $uploading->getErrors() );
-                    throw new \Exception( "User save error", ExceptionHelper::ERROR_GENERAL );
+                    throw new \Exception( "Uploading save error", ExceptionHelper::ERROR_GENERAL );
                 }
+
+                $sqlstr = "select measurements_table_name
+from station_types
+where id = ( select id_type from stations where id = :id_station )";
+                $query = DB::query( $sqlstr, [ 'id_station' => $uploading->id_station ] );
+                $measurements_table_name = $query[0]['measurements_table_name'];
+
+                $sqlstr = "delete from {$measurements_table_name} where id_uploading = :id_uploading";
+                DB::query( $sqlstr, [ 'id_uploading' => $uploading->id ] );
 
                 DB::commit();
                 //DB::rollback();

@@ -98,8 +98,6 @@ class UploadingSearchController extends Controller {
         ] );
     }
 
-    //TODO:остановился здесь
-
     /**
      * Updates an existing Uploading model.
      * If update is successful, the browser will be redirected to the 'view' page.
