@@ -150,4 +150,26 @@ class Uploading extends \yii\db\ActiveRecord {
             DB::query( $sqlstr, $sql_parameters );
         }
     }
+
+    function delete() {
+        if ( !DB::hasBegun() ) {
+            throw new \Exception( "This function must be called within a transaction", ExceptionHelper::INVALID_PARAMETER );
+        }
+
+        $sqlstr = "select measurements_table_name
+from station_types
+where id = ( select id_type from stations where id = :id_station )";
+        $query = DB::query( $sqlstr, [ 'id_station' => $this->id_station ] );
+        $measurements_table_name = $query[0]['measurements_table_name'];
+
+        $sqlstr = "delete from {$measurements_table_name} where id_uploading = :id_uploading";
+        DB::query( $sqlstr, [ 'id_uploading' => $this->id ] );
+
+        $res = parent::delete();
+        if ( $res === false ) {
+            throw new \Exception( "Delete failed", ExceptionHelper::ERROR_GENERAL );
+        }
+
+        return true;
+    }
 }

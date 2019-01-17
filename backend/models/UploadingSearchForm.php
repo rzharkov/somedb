@@ -114,24 +114,13 @@ class UploadingSearchForm extends Model {
                     throw new \Exception( "uploading not found", ExceptionHelper::UPLOADING_NOT_FOUND );
                 }
 
-                $uploading->status = Uploading::STATUS_DELETED;
-
                 DB::begin();
-                $res = $uploading->save();
+                $res = $uploading->delete();
 
                 if( !$res ) {
                     $this->addErrors( $uploading->getErrors() );
                     throw new \Exception( "Uploading save error", ExceptionHelper::ERROR_GENERAL );
                 }
-
-                $sqlstr = "select measurements_table_name
-from station_types
-where id = ( select id_type from stations where id = :id_station )";
-                $query = DB::query( $sqlstr, [ 'id_station' => $uploading->id_station ] );
-                $measurements_table_name = $query[0]['measurements_table_name'];
-
-                $sqlstr = "delete from {$measurements_table_name} where id_uploading = :id_uploading";
-                DB::query( $sqlstr, [ 'id_uploading' => $uploading->id ] );
 
                 DB::commit();
                 //DB::rollback();

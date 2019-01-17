@@ -89,6 +89,7 @@ class DB {
     }
 
     /**
+     * Returns true if there is started transaction
      * @return bool
      */
     public static function hasBegun() {
