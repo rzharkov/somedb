@@ -22,6 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Update', ['update', 'id' => $model->id], [
+            'class' => 'btn btn-warning',
+            'data' => [
+                'method' => 'post',
+            ],
+        ]) ?>
     </p>
 
     <?= DetailView::widget([
@@ -30,7 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'filename',
-            'comment',
+            'station_name',
+            'measurement_interval_name',
             'crtime',
         ],
     ]) ?>

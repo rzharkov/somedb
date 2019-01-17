@@ -29,7 +29,7 @@ class UploadingSearchController extends Controller {
                         'roles' => [ 'viewAdminPage' ],
                     ],
                     [
-                        'actions' => [ 'delete' ],
+                        'actions' => [ 'update', 'delete' ],
                         'allow' => true,
                         'roles' => [ 'admin' ],
                     ],
@@ -146,7 +146,7 @@ class UploadingSearchController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel( $id ) {
-        if ( ( $model = Uploading::findOne( $id ) ) !== null ) {
+        if ( ( $model = Uploading::findById( $id ) ) !== null ) {
             return $model;
         }
 

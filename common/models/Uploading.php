@@ -22,6 +22,9 @@ class Uploading extends \yii\db\ActiveRecord {
     const STATUS_DELETED = 3;
     const STATUS_ACTIVE = 1;
 
+    public $measurement_interval_name;
+    public $station_name;
+
     /**
      * {@inheritdoc}
      */
@@ -50,8 +53,10 @@ class Uploading extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'name' => 'Название загрузки',
             'filename' => 'Название исходного файла',
-            'id_station' => 'Идентификатор ищмерительной станции',
+            'id_station' => 'Идентификатор измерительной станции',
             'id_measurement_interval' => 'Идентификатор интервала измерений',
+            'station_name' => 'Название станции',
+            'measurement_interval_name' => 'Интервал измерений',
             'status' => 'Status',
             'crtime' => 'Crtime',
         ];
@@ -63,7 +68,10 @@ class Uploading extends \yii\db\ActiveRecord {
      * @return Uploading|null
      */
     public static function findById( $id ) {
-        return static::findOne( [ 'id' => $id ] );
+        $res = static::findOne( [ 'id' => $id ] );
+        $res->station_name = Station::findById( $res->id_station )->name;
+        $res->measurement_interval_name = MeasurementInterval::findById( $res->id_measurement_interval )->name;
+        return $res;
     }
 
     /**

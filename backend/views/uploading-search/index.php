@@ -22,6 +22,26 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
         'columns' => [
             'id',
             'name',
+            [
+                'attribute' => 'id_station',
+                'label' => 'id_station',
+                'content' => function ( $data ) {
+                    $tmp = \common\models\Station::findOne( [ 'id' => $data[ 'id_station' ] ] );
+                    $station_name = $tmp->name;
+                    return $station_name;
+                },
+                'filter' => $searchModel->getAvailableStationsList(),
+            ],
+            [
+                'attribute' => 'id_measurement_interval',
+                'label' => 'id_measurement_interval',
+                'content' => function ( $data ) {
+                    $tmp = \common\models\MeasurementInterval::findOne( [ 'id' => $data[ 'id_measurement_interval' ] ] );
+                    $station_name = $tmp->name;
+                    return $station_name;
+                },
+                'filter' => $searchModel->getAvailableMeasurementIntervalsList(),
+            ],
             'filename',
             'comment',
             'crtime',

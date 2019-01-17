@@ -7,7 +7,6 @@ use code\helpers\Flash;
 use code\helpers\Log;
 use common\models\MeasurementInterval;
 use common\models\Station;
-use common\models\StationType;
 use common\models\Uploading;
 use yii\base\Model;
 use yii\web\UploadedFile;
