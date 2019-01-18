@@ -82,10 +82,12 @@ class UploadingSearchController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
+        //TODO: добыть и адаптировать с сайт контроллера
+
         $model = new UploadingSearchForm();
 
         if ( $model->load( Yii::$app->request->post() ) ) {
-            $id_station = $model->createUploading();
+            $id_station = $model->Upload();
             if ( $id_station !== false ) {
                 return $this->redirect( [ 'view', 'id' => $id_station ] );
             }
@@ -107,6 +109,7 @@ class UploadingSearchController extends Controller {
      */
     public function actionUpdate( $id ) {
         $model = new UploadingSearchForm( $id );
+        $model->scenario = 'Update';
 
         if ( $model->load( Yii::$app->request->post() ) && $model->updateUploading( $id ) ) {
             return $this->redirect( [ 'view', 'id' => $model->id ] );

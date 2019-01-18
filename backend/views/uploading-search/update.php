@@ -7,14 +7,18 @@ use yii\widgets\ActiveForm;
 /* @var $model backend\models\UploadingSearchForm */
 /* @var $form yii\widgets\ActiveForm */
 $this->title = 'Update Uploading: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Uploadings', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params[ 'breadcrumbs' ][] = [ 'label' => 'Uploadings', 'url' => [ 'index' ] ];
+$this->params[ 'breadcrumbs' ][] = [ 'label' => $model->name, 'url' => [ 'view', 'id' => $model->id ] ];
+$this->params[ 'breadcrumbs' ][] = 'Update';
 ?>
 
 <div class="uploading-form">
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field( $model, 'id' )->textInput( [ 'readonly' => true ] ) ?>
+
+    <?= $form->field( $model, 'filename' )->textInput( [ 'readonly' => true ] ) ?>
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
@@ -25,7 +29,7 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $form->field( $model, 'comment' )->textarea( [ 'rows' => '6' ] ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton( 'Save', [ 'class' => 'btn btn-success' ] ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

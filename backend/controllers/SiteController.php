@@ -2,11 +2,8 @@
 
 namespace backend\controllers;
 
-use app\models\DataUploadForm;
-use app\models\UploadForm;
+use backend\models\UploadingSearchForm;
 use code\helpers\Flash;
-use code\helpers\FlashHelper;
-use common\widgets\Alert;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -64,7 +61,8 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionIndex() {
-        $model = new DataUploadForm();
+        $model = new UploadingSearchForm();
+        $model->scenario = 'Create';
         if ( Yii::$app->request->isPost ) {
             if ( $model->load( Yii::$app->request->post() ) ) {
                 $model->file = UploadedFile::getInstance( $model, 'file' );

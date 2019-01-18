@@ -27,8 +27,11 @@ class UploadingSearchForm extends Model {
     public $station_name;
     public $crtime;
     public $comment;
+    public $upload_name;
 
     private $_uploading;
+
+    public $file;
 
     /**
      * {@inheritdoc}
@@ -48,8 +51,12 @@ class UploadingSearchForm extends Model {
      */
     public function rules() {
         return [
+            [ [ 'file' ], 'file' ],
             [ [ 'id', 'status', 'id_station', 'id_measurement_interval' ], 'integer' ],
+            [ [ 'upload_name', 'comment' ], 'string' ],
             [ [ 'name', 'filename', 'comment', 'crtime' ], 'safe' ],
+            [ [ 'upload_name', 'id_station', 'id_measurement_interval', 'file' ], 'required', 'on' => 'Create' ],
+            [ [ 'name', 'id_station', 'id_measurement_interval', 'comment' ], 'required', 'on' => 'Update' ],
             [ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
         ];
     }
@@ -57,9 +64,26 @@ class UploadingSearchForm extends Model {
     /**
      * {@inheritdoc}
      */
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'id_station' => 'Станция',
+            'id_measurement_interval' => 'Интервал измерений',
+            'file' => 'Файл с данными',
+            'upload_name' => 'Название загрузки',
+            'comment' => 'Комментарий',
+            'crtime' => 'Время добавления в базу',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function scenarios() {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        $scenarios = parent::scenarios();
+        $scenarios[ 'Create' ] = [ 'upload_name', 'id_station', 'id_measurement_interval', 'file' ];
+        $scenarios[ 'Update' ] = [ 'filename', 'name', 'id_station', 'id_measurement_interval', 'comment' ];
+        return $scenarios;
     }
 
 
@@ -140,7 +164,7 @@ class UploadingSearchForm extends Model {
         $this->id_station = $this->_uploading->id_station;
         $this->measurement_interval_name = $this->_uploading->id_station;
         $this->station_name = $this->_uploading->id_station;
-
+        $this->filename = $this->_uploading->filename;
 
         return $this->_uploading;
     }
@@ -157,7 +181,7 @@ class UploadingSearchForm extends Model {
                 DB::begin();
                 $res = $uploading->delete();
 
-                if( !$res ) {
+                if ( !$res ) {
                     $this->addErrors( $uploading->getErrors() );
                     throw new \Exception( "Uploading save error", ExceptionHelper::ERROR_GENERAL );
                 }
@@ -176,9 +200,30 @@ class UploadingSearchForm extends Model {
         }
     }
 
+    public function Upload() {
+        try {
+            DB::begin();
+            $data = file( $this->file->tempName );
+            $uploading = new Uploading();
+
+            $uploading->Create( $this->upload_name, $this->id_station, $this->id_measurement_interval, $this->filename, $this->comment, $data );
+
+            DB::commit();
+            //DB::rollback();
+            return true;
+        } catch ( \Throwable $e ) {
+            DB::rollback();
+            $this->addError( Flash::ATTRIBUTE_SYSTEM, Log::getUserMessage( $e ) );
+            return false;
+        }
+    }
+
     public function updateUploading( $id ) {
         try {
             if ( $this->validate() ) {
+                //var_dump( $this->rules() );
+                //var_dump( $this->comment );
+                //die();
                 $uploading = Uploading::findById( $id );
 
                 if ( !$uploading ) {

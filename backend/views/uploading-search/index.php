@@ -24,7 +24,7 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
             'name',
             [
                 'attribute' => 'id_station',
-                'label' => 'id_station',
+                //'label' => 'id_station',
                 'content' => function ( $data ) {
                     $tmp = \common\models\Station::findOne( [ 'id' => $data[ 'id_station' ] ] );
                     $station_name = $tmp->name;
@@ -34,7 +34,7 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
             ],
             [
                 'attribute' => 'id_measurement_interval',
-                'label' => 'id_measurement_interval',
+                //'label' => 'id_measurement_interval',
                 'content' => function ( $data ) {
                     $tmp = \common\models\MeasurementInterval::findOne( [ 'id' => $data[ 'id_measurement_interval' ] ] );
                     $station_name = $tmp->name;
