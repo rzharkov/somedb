@@ -190,6 +190,8 @@ class UploadingSearchForm extends Model {
                 $uploading->id_measurement_interval = $this->id_measurement_interval;
                 $uploading->id_station = $this->id_station;
 
+                //TODO:: данные загрузки надо тоже исправить!
+
                 DB::begin();
                 $res = $uploading->save();
 
