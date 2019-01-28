@@ -32,14 +32,14 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
             ),
             'hAxis' => array(
                 'title' => 'Время измерения',
-                'format' => 'none',
+                //'format' => 'none',
                 'gridlines' => array(
-                    'count' => 10,
-                    //'color' => 'transparent'  //set grid line transparent
+                    'count' => 100,
+                    'color' => 'red'  //set grid line transparent
                 )
             ),
             'curveType' => 'function', //smooth curve or not
-            //'legend' => array( 'position' => 'bottom', 'color' => 'transparent' ),
+            'legend' => array( 'position' => 'bottom', 'color' => 'transparent' ),
         ) )
     );
     ?>

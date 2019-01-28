@@ -46,10 +46,10 @@ class ChartForm extends Model {
 
     public function GetData( $params ) {
         $sqlstr = "select
-  measurement_time, id, pf_30_1, pf_30_2, pf_50_1, pf_50_2
+  to_char( measurement_time, 'HH24-MI-SS' ) as measurement_time, id, pf_30_1, pf_30_2, pf_50_1, pf_50_2, measurement_time as measurement_time_raw
 from lysimetric_station_measurements
 where
-id_uploading = 123
+id_uploading = 72
 limit 10";
 
         $query = DB::query( $sqlstr );
@@ -58,6 +58,8 @@ limit 10";
         foreach( $query as $row ) {
             $res[] = [ $row['measurement_time'], (float)$row['pf_30_1'] ];
         }
+
+        //$res[count($res) -1 ]['measurement_time'] = $query[count($res) - 2]['measurement_time_raw'];
 
         return $res;
     }
