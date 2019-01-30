@@ -46,18 +46,21 @@ class ChartForm extends Model {
 
     public function GetData( $params ) {
         $sqlstr = "select
-  to_char( measurement_time, 'HH24-MI-SS' ) as measurement_time, id, pf_30_1, pf_30_2, pf_50_1, pf_50_2, measurement_time as measurement_time_raw
+  to_char( date_trunc( 'minute', measurement_time + interval '30 sec' ), 'YYYY-MM-DD HH:MI' ) as measurement_time, to_char( date_trunc( 'minute', measurement_time + interval '30 sec' ), 'HH:MI' ) as measurement_time_short, id, pf_30_1, pf_30_2, pf_50_1, pf_50_2, pf_120_1, pf_120_2
 from lysimetric_station_measurements
 where
-id_uploading = 72
-limit 10";
+id_uploading = 123
+order by measurement_time
+limit 150";
 
         $query = DB::query( $sqlstr );
 
-        $res[] = [ 'measurement_time', 'pf_30_1' ];
+        $res[] = [ 'measurement_time', 'pf_30_1', 'pf_50_1', 'pf_120_1' ];
         foreach( $query as $row ) {
-            $res[] = [ $row['measurement_time'], (float)$row['pf_30_1'] ];
+            $res[] = [ $row['measurement_time_short'], (float)$row['pf_30_1'], (float)$row['pf_50_1'], (float)$row['pf_120_1'] ];
         }
+        $res[1][0] = $query[0]['measurement_time'];
+        $res[count( $res ) - 1][0] = $query[count( $query ) - 1]['measurement_time'];
 
         //$res[count($res) -1 ]['measurement_time'] = $query[count($res) - 2]['measurement_time_raw'];
 

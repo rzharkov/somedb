@@ -26,20 +26,21 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
                 //'format' => 'currency',
                 'maxValue' => 'auto',
                 'gridlines' => array(
+                    //'count' => 10,
                     //'color' => 'transparent'  //set grid line transparent
 
                 )
             ),
             'hAxis' => array(
-                'title' => 'Время измерения',
-                //'format' => 'none',
+                //'title' => 'Время измерения',
+                'format' => 'M/d/yy',
                 'gridlines' => array(
-                    'count' => 100,
-                    'color' => 'red'  //set grid line transparent
+                    //'count' => 10,
+                    //'color' => 'transparent'  //set grid line transparent
                 )
             ),
             'curveType' => 'function', //smooth curve or not
-            'legend' => array( 'position' => 'bottom', 'color' => 'transparent' ),
+            'legend' => array( 'position' => 'right', 'color' => 'transparent' ),
         ) )
     );
     ?>
