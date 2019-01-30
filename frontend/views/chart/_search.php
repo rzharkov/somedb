@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use nex\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\ChartForm */
@@ -10,18 +11,46 @@ use yii\widgets\ActiveForm;
 
 <div class="chart-search">
 
-    <?php $form = ActiveForm::begin( [
-        'action' => [ 'index' ],
-        'method' => 'get',
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field( $model, 'date_from' )->widget(
+        DatePicker::className(), [
+        'value' => '2018-07-18',
+        //'defaultDate' => '2018-07-18',
+        'language' => 'ru',
+        'size' => 'sm',
+        'readonly' => false,
+        'placeholder' => 'date_from',
+        'clientOptions' => [
+            'format' => 'L',
+            'minDate' => '2018-07-18',
+            'maxDate' => '2018-07-19',
+            'sideBySide' => false,
+            'keepInvalid' => false,
+            'showTodayButton' => false,
+            //'useStrict' => false,
+        ],
     ] ); ?>
 
-    <?= $form->field( $model, 'id' ) ?>
+    <?= $form->field( $model, 'date_to' )->widget(
+        DatePicker::className(), [
+        'value' => '2018-07-19',
+        //'defaultDate' => '2018-07-19',
+        'language' => 'ru',
+        'size' => 'sm',
+        'readonly' => false,
+        'placeholder' => 'date_to',
+        'clientOptions' => [
+            'format' => 'L',
+            'minDate' => '2018-07-18',
+            'maxDate' => '2018-07-20',
+            'sideBySide' => false,
+            'keepInvalid' => false,
+            'showTodayButton' => false,
+        ],
+    ] ); ?>
 
-    <?= $form->field( $model, 'name' ) ?>
-
-    <?= $form->field( $model, 'status' ) ?>
-
-    <?= $form->field( $model, 'crtime' ) ?>
+    <?= $form->field( $model, 'id_upload' ) ?>
 
     <div class="form-group">
         <?= Html::submitButton( 'Search', [ 'class' => 'btn btn-primary' ] ) ?>
