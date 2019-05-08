@@ -15,6 +15,23 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
 <div class="chart-index">
 
     <h1><?= Html::encode( $this->title ) ?></h1>
+    <div id="test_div" style="width: 900px; height: 500px;"></div>
+    <script>
+        var data = google.visualization.arrayToDataTable([
+            ['Country', 'Popularity'],
+            ['Sweden', 300],
+            ['United States', 300],
+            ['France', 400],
+            ['Canada', 500],
+            ['Spain', 500],
+            ['RU', 900]
+        ]);
+        var options = {
+            title: 'Simple map' // Заголовок.
+        };
+        var chart = new google.visualization.GeoChart(document.getElementById('test_div'));
+            chart.draw(data, options);
+    </script>
     <?php
     echo GoogleChart::widget( array( 'visualization' => 'LineChart',
         'data' => $data,

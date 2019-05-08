@@ -40,11 +40,11 @@ class ChartController extends Controller {
     public function actionIndex() {
         $searchModel = new ChartForm();
 
-        //validate TODO:
+        $searchModel->validate();
 
         $searchModel->load( Yii::$app->request->post() );
 
-        $data = $searchModel->GetData( Yii::$app->request->queryParams );
+        $data = $searchModel->GetData();
 
         Flash::AddAll( $searchModel );
 

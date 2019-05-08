@@ -33,7 +33,8 @@ class ChartForm extends Model {
      */
     public function rules() {
         return [
-            [ [ 'id_upload' ], 'integer' ],
+            [ 'id_upload', 'integer', 'min' => 1 ],
+            [ 'id_upload', 'default', 'value' => 72 ],
             [ [ 'date_from', 'date_to' ], 'safe' ]
         ];
     }
@@ -54,7 +55,7 @@ class ChartForm extends Model {
   to_char( date_trunc( 'minute', measurement_time + interval '30 sec' ), 'YYYY-MM-DD HH:MI' ) as measurement_time, to_char( date_trunc( 'minute', measurement_time + interval '30 sec' ), 'HH:MI' ) as measurement_time_short, id, pf_30_1, pf_30_2, pf_50_1, pf_50_2, pf_120_1, pf_120_2
 from lysimetric_station_measurements
 where
-id_uploading = 123
+id_uploading = {$this->id_upload}
 order by measurement_time
 limit 150";
 
