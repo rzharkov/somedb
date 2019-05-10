@@ -27,23 +27,41 @@ function drawChart() {
 		width: '100%', height: '100%',
 		hAxis: {
 			title: 'Date',
-			format: 'yyyy-MM-dd\nH:mm'
+			format: 'yyyy-MM-dd\nHH:mm'
 		}
 	}
 
-	console.log(jsonData);
+	jsonData = JSON.parse(jsonData);
 
-	var data = jsonData;
+	var data = new google.visualization.DataTable();
 
-	data = new google.visualization.DataTable();
-	data.addColumn('date', 'Col1');
+	for (i in jsonData.columns) {
+		data.addColumn( jsonData.columns[i].type, jsonData.columns[i].name );
+	}
+
+	for (i in jsonData.rows) {
+		for ( j in jsonData.rows[i] ) {
+			switch (jsonData.columns[j].type) {
+				case 'date':
+					jsonData.rows[i][j] = new Date(jsonData.rows[i][j]);
+					break;
+				case 'number':
+					jsonData.rows[i][j] = parseFloat( jsonData.rows[i][j] );
+					break;
+				default:
+			}
+		}
+		data.addRow( jsonData.rows[i] );
+	}
+
+	/*data.addColumn('date', 'Col1');
 	data.addColumn('number', 'Col2');
-	data.addColumn('number', 'Col3');
+	data.addColumn('number', 'Col3');*/
 
-	data.addRow([new Date(2018, 6, 20, 12, 44, 12), 42, 43]);
+	/*data.addRow([new Date(2018, 6, 20, 12, 44, 12), 42, 43]);
 	data.addRow([new Date(2018, 6, 20, 13, 40, 22), 52, 73]);
 	data.addRow([new Date(2018, 6, 20, 14, 37, 32), 62, 83]);
-	data.addRow([new Date(2018, 6, 20, 15, 35, 12), 52, 73]);
+	data.addRow([new Date(2018, 6, 20, 15, 35, 12), 52, 73]);*/
 
 
 	var formatter = new google.visualization.DateFormat({pattern: "yyyy-MM-dd\nHH:mm"});
