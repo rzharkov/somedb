@@ -8,33 +8,33 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Measurement Intervals';
-$this->params['breadcrumbs'][] = $this->title;
+$this->params[ 'breadcrumbs' ][] = $this->title;
 ?>
 <div class="measurement-interval-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h1><?= Html::encode( $this->title ) ?></h1>
+	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Measurement Interval', ['create'], ['class' => 'btn btn-success']) ?>
+			<?= Html::a( 'Create Measurement Interval', [ 'create' ], [ 'class' => 'btn btn-success' ] ) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+	<?= GridView::widget( [
+		'dataProvider' => $dataProvider,
+		'filterModel' => $searchModel,
+		'columns' => [
+			[ 'class' => 'yii\grid\SerialColumn' ],
 
-            'id',
-            'name',
-            'status',
+			'id',
+			'name',
+			'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-        'rowOptions' => function ( $model ) {
-            if ( $model->status === 3 ) {
-                return [ 'class' => 'danger' ];
-            }
-        }
-    ]); ?>
+			[ 'class' => 'yii\grid\ActionColumn' ],
+		],
+		'rowOptions' => function ( $model ) {
+			if ( $model->status === 3 ) {
+				return [ 'class' => 'danger' ];
+			}
+		}
+	] ); ?>
 </div>

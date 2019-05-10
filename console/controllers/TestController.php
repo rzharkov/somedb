@@ -15,75 +15,75 @@ use code\helpers\DB;
 use code\helpers\Log;
 
 class TestController extends Controller {
-    public function actionIndex() {
-        Log::log( "Hello, world!" );
-        $sqlstr = "select user || ' ' || now() as date";
-        $query = DB::query( $sqlstr );
-        Log::log( $query[ 0 ][ 'date' ] );
-    }
+	public function actionIndex() {
+		Log::log( "Hello, world!" );
+		$sqlstr = "select user || ' ' || now() as date";
+		$query = DB::query( $sqlstr );
+		Log::log( $query[ 0 ][ 'date' ] );
+	}
 
-    public function actionInitAdmin() {
-        $res = \yii\helpers\Console::input( "Do you realy want to clear and initialize permitions? (y/N)" );
+	public function actionInitAdmin() {
+		$res = \yii\helpers\Console::input( "Do you realy want to clear and initialize permitions? (y/N)" );
 
-        if ( $res === 'y' ) {
-            Log::log( "Initializing roles" );
+		if ( $res === 'y' ) {
+			Log::log( "Initializing roles" );
 
-            try {
-                DB::begin();
+			try {
+				DB::begin();
 
-                $auth = Yii::$app->authManager;
+				$auth = Yii::$app->authManager;
 
-                $auth->removeAll();
+				$auth->removeAll();
 
-                $admin = $auth->createRole( 'admin' );
-                $viewer = $auth->createRole( 'viewer' );
+				$admin = $auth->createRole( 'admin' );
+				$viewer = $auth->createRole( 'viewer' );
 
-                $auth->add( $admin );
-                $auth->add( $viewer );
+				$auth->add( $admin );
+				$auth->add( $viewer );
 
-                $viewAdminPage = $auth->createPermission( 'viewAdminPage' );
-                $viewAdminPage->description = 'Просмотр админки';
+				$viewAdminPage = $auth->createPermission( 'viewAdminPage' );
+				$viewAdminPage->description = 'Просмотр админки';
 
-                $auth->add( $viewAdminPage );
+				$auth->add( $viewAdminPage );
 
-                $auth->addChild( $admin, $viewAdminPage );
+				$auth->addChild( $admin, $viewAdminPage );
 
-                DB::query( 'delete from public.user' );
+				DB::query( 'delete from public.user' );
 
-                $user = new User();
-                $user->username = 'admin';
-                $user->password = '123456';
-                $user->email = 'admin@local';
-                $user->generateAuthKey();
-                $user->save();
+				$user = new User();
+				$user->username = 'admin';
+				$user->password = '123456';
+				$user->email = 'admin@local';
+				$user->generateAuthKey();
+				$user->save();
 
-                $user->refresh();
+				$user->refresh();
 
-                $auth->assign( $admin, $user->id );
+				$auth->assign( $admin, $user->id );
 
-                //DB::rollback();
-                DB::commit();
+				//DB::rollback();
+				DB::commit();
 
-            } catch ( \Throwable $e ) {
-                DB::rollback();
-                Log::getUserMessage( $e );
-            }
-            Log::log( 'Initializing complete' );
-        } else {
-            Log::log( 'Exit' );
-        }
-    }
+			} catch ( \Throwable $e ) {
+				DB::rollback();
+				Log::getUserMessage( $e );
+			}
+			Log::log( 'Initializing complete' );
+		} else {
+			Log::log( 'Exit' );
+		}
+	}
 
-    public function actionTestAuth() {
-        Log::log( "Hello, world!" );
+	public function actionTestAuth() {
+		Log::log( "Hello, world!" );
 
-        $identity = User::findOne( ['username' => 'admin' ] );
+		$identity = User::findOne( [ 'username' => 'admin' ] );
 
-        $res = \Yii::$app->getSecurity()->validatePassword( '123456', $identity->password_hash );
+		$res = \Yii::$app->getSecurity()->validatePassword( '123456', $identity->password_hash );
 
-        var_dump( $res );
+		var_dump( $res );
 
-        //\Yii::$app->user->login( 'admin' );
+		//\Yii::$app->user->login( 'admin' );
 
-    }
+	}
 }

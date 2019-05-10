@@ -16,24 +16,24 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin( [ 'id' => 'profile-form' ] ); ?>
+					<?php $form = ActiveForm::begin( [ 'id' => 'profile-form' ] ); ?>
 
-            <?= $form->field( $model, 'username' )->textInput( [ 'readonly' => true ] ) ?>
+					<?= $form->field( $model, 'username' )->textInput( [ 'readonly' => true ] ) ?>
 
-            <?= $form->field( $model, 'email' )->textInput( [ 'readonly' => true ] ) ?>
+					<?= $form->field( $model, 'email' )->textInput( [ 'readonly' => true ] ) ?>
 
-            <?= $form->field( $model, 'password' )->passwordInput() ?>
+					<?= $form->field( $model, 'password' )->passwordInput() ?>
 
-            <?= $form->field( $model, 'new_password' )->passwordInput() ?>
+					<?= $form->field( $model, 'new_password' )->passwordInput() ?>
 
-            <?= $form->field( $model, 'retype_new_password' )->passwordInput() ?>
+					<?= $form->field( $model, 'retype_new_password' )->passwordInput() ?>
 
             <div class="form-group">
-                <?= Html::submitButton( 'Save', [ 'class' => 'btn btn-primary', 'name' => 'save-button' ] ) ?>
-                <?= Html::resetButton( 'Cancel', [ 'class' => 'btn btn-secondary', 'name' => 'cancel-button' ] ) ?>
+							<?= Html::submitButton( 'Save', [ 'class' => 'btn btn-primary', 'name' => 'save-button' ] ) ?>
+							<?= Html::resetButton( 'Cancel', [ 'class' => 'btn btn-secondary', 'name' => 'cancel-button' ] ) ?>
             </div>
 
-            <?php ActiveForm::end(); ?>
+					<?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>
