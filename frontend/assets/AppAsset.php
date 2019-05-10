@@ -14,7 +14,9 @@ class AppAsset extends AssetBundle {
 		'css/site.css',
 	];
 	public $js = [
-		'https://www.gstatic.com/charts/loader.js'
+		'https://www.gstatic.com/charts/loader.js',
+		'https://www.google.com/jsapi',
+		'js/charts.js'
 	];
 	public $depends = [
 		'yii\web\YiiAsset',

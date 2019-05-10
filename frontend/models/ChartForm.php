@@ -57,7 +57,7 @@ from lysimetric_station_measurements
 where
 id_uploading = {$this->id_upload}
 order by measurement_time
-limit 150";
+limit 5";
 
 		$query = DB::query( $sqlstr );
 

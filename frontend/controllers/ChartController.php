@@ -20,7 +20,7 @@ class ChartController extends Controller {
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => [ 'index' ],
+						'actions' => [ 'index', 'getdata' ],
 						'allow' => true,
 						'roles' => [ 'viewAdminPage' ],
 					],
@@ -52,6 +52,18 @@ class ChartController extends Controller {
 			'searchModel' => $searchModel,
 			'data' => $data,
 		] );
+	}
+
+	public function actionGetdata() {
+		$searchModel = new ChartForm();
+
+		$searchModel->validate();
+
+		$searchModel->load( Yii::$app->request->post() );
+
+		$data = $searchModel->GetData();
+
+		return json_encode( $data );
 	}
 
 }
