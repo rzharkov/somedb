@@ -54,7 +54,7 @@ class UploadingSearchForm extends Model {
 			[ [ 'file' ], 'file' ],
 			[ [ 'id', 'status', 'id_station', 'id_measurement_interval' ], 'integer' ],
 			[ [ 'upload_name', 'comment' ], 'string' ],
-			[ [ 'name', 'filename', 'comment', 'crtime' ], 'safe' ],
+			//[ [ 'name', 'filename', 'comment', 'crtime' ], 'safe' ],
 			[ [ 'upload_name', 'id_station', 'id_measurement_interval', 'file' ], 'required', 'on' => 'Create' ],
 			[ [ 'name', 'id_station', 'id_measurement_interval', 'comment' ], 'required', 'on' => 'Update' ],
 			[ 'status', 'in', 'range' => [ self::STATUS_ACTIVE, self::STATUS_DELETED ] ],
@@ -81,7 +81,7 @@ class UploadingSearchForm extends Model {
 	 */
 	public function scenarios() {
 		$scenarios = parent::scenarios();
-		$scenarios[ 'Create' ] = [ 'upload_name', 'id_station', 'id_measurement_interval', 'file' ];
+		$scenarios[ 'Create' ] = [ 'upload_name', 'id_station', 'id_measurement_interval', 'file', 'comment' ];
 		$scenarios[ 'Update' ] = [ 'filename', 'name', 'id_station', 'id_measurement_interval', 'comment' ];
 		return $scenarios;
 	}
