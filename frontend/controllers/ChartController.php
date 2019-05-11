@@ -57,13 +57,16 @@ class ChartController extends Controller {
 	public function actionGetdata() {
 		$searchModel = new ChartForm();
 
-		$searchModel->validate();
-
 		$searchModel->load( Yii::$app->request->post() );
-
-		$data = $searchModel->GetData();
-
-		return json_encode( $data );
+		var_dump( Yii::$app->request->post() );
+		var_dump( $searchModel->validate() );
+		die();
+		if ( $searchModel->validate() ) {
+			$data = $searchModel->GetData();
+			return json_encode( $data );
+		} else {
+			return false;
+		}
 	}
 
 }

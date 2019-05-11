@@ -15,7 +15,7 @@ use nex\datepicker\DatePicker;
 
 	<?= $form->field( $model, 'date_from' )->widget(
 		DatePicker::className(), [
-		'value' => '2018-07-18',
+		'value' => '18.07.2018',
 		//'defaultDate' => '2018-07-18',
 		'language' => 'ru',
 		'size' => 'sm',
@@ -34,7 +34,7 @@ use nex\datepicker\DatePicker;
 
 	<?= $form->field( $model, 'date_to' )->widget(
 		DatePicker::className(), [
-		'value' => '2018-07-19',
+		'value' => '19.07.2018',
 		//'defaultDate' => '2018-07-19',
 		'language' => 'ru',
 		'size' => 'sm',
@@ -50,7 +50,7 @@ use nex\datepicker\DatePicker;
 		],
 	] ); ?>
 
-	<?= $form->field( $model, 'id_upload' ) ?>
+	<?= $form->field( $model, 'id_uploading' ) ?>
 
     <div class="form-group">
 			<?= Html::submitButton( 'Search', [ 'class' => 'btn btn-primary' ] ) ?>
