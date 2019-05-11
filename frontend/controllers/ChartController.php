@@ -38,31 +38,31 @@ class ChartController extends Controller {
 	 * @return mixed
 	 */
 	public function actionIndex() {
-		$searchModel = new ChartForm();
+		$model = new ChartForm();
 
-		$searchModel->validate();
+		$model->load( Yii::$app->request->post() );
 
-		$searchModel->load( Yii::$app->request->post() );
+		$model->validate();
 
-		$data = $searchModel->GetData();
+		$data = $model->GetData();
 
-		Flash::AddAll( $searchModel );
+		Flash::AddAll( $model );
 
 		return $this->render( 'index', [
-			'searchModel' => $searchModel,
+			'model' => $model,
 			'data' => $data,
 		] );
 	}
 
 	public function actionGetdata() {
-		$searchModel = new ChartForm();
+		$model = new ChartForm();
 
-		$searchModel->load( Yii::$app->request->post() );
-		var_dump( Yii::$app->request->post() );
-		var_dump( $searchModel->validate() );
-		die();
-		if ( $searchModel->validate() ) {
-			$data = $searchModel->GetData();
+		$model->load( Yii::$app->request->post() );
+
+		//var_dump( $model->date_from );
+
+		if ( $model->validate() ) {
+			$data = $model->GetData();
 			return json_encode( $data );
 		} else {
 			return false;

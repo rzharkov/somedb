@@ -9,7 +9,6 @@ function drawChart() {
 			id_uploading: document.getElementById("chartform-id_uploading").value,
 		},
 		method: 'POST',
-		//contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		async: false
 	}).responseText;

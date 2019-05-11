@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use code\helpers\DB;
+use Yii;
 use code\helpers\ExceptionHelper;
 use code\helpers\Flash;
 use code\helpers\Log;
@@ -20,11 +21,8 @@ class ChartForm extends Model {
 
 	/**
 	 * {@inheritdoc}
-	 *
-	 * UserSearchForm constructor.
-	 * @param null $id
 	 */
-	function __construct( $id = null ) {
+	function __construct() {
 		parent::__construct();
 	}
 
@@ -35,7 +33,7 @@ class ChartForm extends Model {
 		return [
 			[ 'id_uploading', 'integer', 'min' => 1 ],
 			[ 'id_uploading', 'default', 'value' => 123 ],
-			[ [ 'date_from', 'date_to' ], 'safe' ]
+			[ ['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d' ]
 		];
 	}
 
@@ -45,6 +43,26 @@ class ChartForm extends Model {
 	public function scenarios() {
 		// bypass scenarios() implementation in the parent class
 		return Model::scenarios();
+	}
+
+	/**
+	 * @param array $data
+	 * @param null $formName
+	 * @return bool
+	 */
+	public function load( $data, $formName = null ) {
+		$res = parent::load( $data, $formName );
+
+		if ( Yii::$app->request->isPost ) {
+			if ( array_key_exists( 'id_uploading', Yii::$app->request->post() ) )
+				$this->id_uploading = Yii::$app->request->post()[ 'id_uploading' ];
+			if ( array_key_exists( 'date_from', Yii::$app->request->post() ) )
+				$this->date_from = Yii::$app->request->post()[ 'date_from' ];
+			if ( array_key_exists( 'date_to', Yii::$app->request->post() ) )
+				$this->date_to = Yii::$app->request->post()[ 'date_to' ];
+		}
+
+		return $res;
 	}
 
 	public function GetData() {
