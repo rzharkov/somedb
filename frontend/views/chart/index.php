@@ -1,11 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use frontend\models\ChartForm;
+use frontend\assets\GoogleChartAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\ChartForm */
 /* @var $data array */
+
+$tmp = GoogleChartAsset::register($this);
+var_dump( $tmp );
 
 $this->title = 'Charts';
 $this->params[ 'breadcrumbs' ][] = $this->title;
