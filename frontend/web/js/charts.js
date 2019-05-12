@@ -6,7 +6,8 @@ function drawChart() {
 		data: {
 			date_from: document.getElementById("chartform-date_from").value,
 			date_to: document.getElementById("chartform-date_to").value,
-			id_uploading: document.getElementById("chartform-id_uploading").value,
+			id_station: document.getElementById("chartform-id_station").value,
+			id_measurement_interval: document.getElementById("chartform-id_measurement_interval").value
 		},
 		method: 'POST',
 		dataType: "json",

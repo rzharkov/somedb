@@ -35,7 +35,8 @@ class ChartController extends Controller {
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
+	 * @throws \Throwable
 	 */
 	public function actionIndex() {
 		$model = new ChartForm();
@@ -54,12 +55,15 @@ class ChartController extends Controller {
 		] );
 	}
 
+	/**
+	 * Returns a measurements data in the json format
+	 * @return bool|false|string
+	 * @throws \Throwable
+	 */
 	public function actionGetdata() {
 		$model = new ChartForm();
 
 		$model->load( Yii::$app->request->post() );
-
-		//var_dump( $model->date_from );
 
 		if ( $model->validate() ) {
 			$data = $model->GetData();

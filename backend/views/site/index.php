@@ -40,7 +40,7 @@ $this->title = yii::$app->name;
 <script language="JavaScript">
 	document.getElementById("uploadingsearchform-file").onchange = function () {
 		if (typeof document.getElementById("uploadingsearchform-file").files[0].name !== "undefined") {
-			//заполним по возсожности поля для ввода
+			//заполним по возможности поля для ввода
 			combobox = document.getElementById("uploadingsearchform-id_measurement_interval");
 			filename = document.getElementById("uploadingsearchform-file").files[0].name;
 			filename_without_extension = filename.split('.').slice(0, -1).join('.');
