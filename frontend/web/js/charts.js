@@ -18,11 +18,41 @@ function drawChart() {
 		title: 'Simple graph',
 		curveType: 'function',
 		legend: {position: 'bottom'},
-		pointSize: 5,
+		pointSize: 2,
 		width: '100%', height: '100%',
+		explorer: {},
 		hAxis: {
 			title: 'Date',
 			format: 'yyyy-MM-dd\nHH:mm'
+		},
+		series: {
+			3: {
+				targetAxisIndex: 1,
+				lineWidth: 1,
+				lineDashStyle: [4, 2],
+				pointShape: 'diamond',
+				pointSize: 5
+			},
+			4: {
+				targetAxisIndex: 1,
+				lineDashStyle: [4, 2],
+				pointShape: 'diamond',
+				pointSize: 5
+			},
+			5: {
+				targetAxisIndex: 1,
+				lineDashStyle: [4, 2],
+				pointShape: 'diamond',
+				pointSize: 5
+			}
+		},
+		vAxes: {
+			0: {
+				title: 'y1',
+			},
+			1: {
+				title: 'y2',
+			}
 		}
 	}
 
