@@ -15,7 +15,7 @@ function drawChart() {
 	}).responseText;
 
 	var options = {
-		title: 'Simple graph',
+		//title: 'Simple graph',
 		curveType: 'function',
 		legend: {position: 'bottom'},
 		pointSize: 2,
@@ -64,6 +64,11 @@ function drawChart() {
 		data.addColumn(jsonData.columns[i].type, jsonData.columns[i].name);
 	}
 
+	if ( jsonData.rows.length < 2 ) {
+		alert( 'Less than two rows found' );
+		return false;
+	}
+
 	for (i in jsonData.rows) {
 		for (j in jsonData.rows[i]) {
 			switch (jsonData.columns[j].type) {
@@ -82,8 +87,14 @@ function drawChart() {
 	var formatter = new google.visualization.DateFormat({pattern: "yyyy-MM-dd\nHH:mm"});
 	formatter.format(data, 0);
 
-	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-	chart.draw(data, options);
+	window.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+	window.chart.draw(data, options);
+}
+
+function openImageInNewWindow() {
+	var imgUri = window.chart.getImageURI();
+	window.open(imgUri);
 }
 
 google.charts.setOnLoadCallback(drawChart);

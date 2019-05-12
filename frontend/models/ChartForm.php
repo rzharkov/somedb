@@ -39,7 +39,7 @@ class ChartForm extends Model {
 			[ 'id_measurement_interval', 'default', 'value' => 2 ],
 			[ [ 'id_station', 'id_measurement_interval' ], 'required' ],
 			[ [ 'date_from', 'date_to' ], 'date', 'format' => 'php:Y-m-d' ],
-			[ 'date_from', 'default', 'value' => '2018-07-17' ],
+			[ 'date_from', 'default', 'value' => '2018-07-22' ],
 			[ 'date_to', 'default', 'value' => '2018-07-23' ]
 		];
 	}
@@ -151,6 +151,7 @@ order by measurement_time";
 			]
 		);
 
+		$res[ 'rows' ] = [];
 		foreach ( $query as $row ) {
 			$tmp = [];
 			foreach ( $row as $key => $value ) {

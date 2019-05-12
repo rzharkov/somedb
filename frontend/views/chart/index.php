@@ -25,6 +25,7 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
 		<div class="form-group">
 					<?= Html::button( 'Draw', [ 'class' => 'btn btn-primary', 'id' => 'btn-search', 'onClick' => 'drawChart();' ] ) ?>
 					<?= Html::resetButton( 'Reset', [ 'class' => 'btn btn-default' ] ) ?>
+					<?= Html::resetButton( 'Open image in new window', [ 'class' => 'btn btn-default', 'onClick' => 'openImageInNewWindow();' ] ) ?>
 		</div>
 
 			<?= $form->field( $model, 'id_station' )->dropDownList( $model->getAvailableStationsList() ) ?>
