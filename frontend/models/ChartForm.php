@@ -209,8 +209,12 @@ class ChartForm extends Model {
 		$tmp_list = $this->GetAvailableFieldsList();
 		$res = [];
 
-		foreach ( $this->visible_fields as $field ) {
-			$res[] = $tmp_list[ $field ];
+		if ( is_array( $this->visible_fields ) ) {
+			foreach ( $this->visible_fields as $field ) {
+				$res[] = $tmp_list[ $field ];
+			}
+		} else {
+			$res[] = $tmp_list['pf_30_1'];
 		}
 
 		return $res;
