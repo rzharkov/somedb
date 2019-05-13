@@ -21,6 +21,7 @@ class ChartForm extends Model {
 	public $id_measurement_interval;
 	public $date_from;
 	public $date_to;
+	public $visible_fields;
 
 	/**
 	 * {@inheritdoc}
@@ -39,8 +40,9 @@ class ChartForm extends Model {
 			[ 'id_measurement_interval', 'default', 'value' => 2 ],
 			[ [ 'id_station', 'id_measurement_interval' ], 'required' ],
 			[ [ 'date_from', 'date_to' ], 'date', 'format' => 'php:Y-m-d' ],
-			[ 'date_from', 'default', 'value' => '2018-07-22' ],
-			[ 'date_to', 'default', 'value' => '2018-07-23' ]
+			[ 'date_from', 'default', 'value' => '2018-07-21' ],
+			[ 'date_to', 'default', 'value' => '2018-07-22' ],
+			[ 'visible_fields', 'in', 'range' => array_keys( $this->GetVisibleFields() ), 'allowArray' => true ]
 		];
 	}
 
@@ -53,7 +55,8 @@ class ChartForm extends Model {
 			'id_station' => 'Станция',
 			'id_measurement_interval' => 'Интервал измерений',
 			'date_from' => 'Начало',
-			'date_to' => 'Конец'
+			'date_to' => 'Конец',
+			'visible_fields' => 'Отображать поля'
 		];
 	}
 
@@ -63,6 +66,21 @@ class ChartForm extends Model {
 	public function scenarios() {
 		// bypass scenarios() implementation in the parent class
 		return Model::scenarios();
+	}
+
+	/**
+	 * Returns list of possible visible fields for a current station
+	 * @return array
+	 */
+	public function GetVisibleFields() {
+		return [
+			'pf_30_1' => 'Осм. давление 30см 1 монолит',
+			'pf_50_1' => 'Осм. давление 50см 1 монолит',
+			'pf_120_1' => 'Осм. давление 120см 1 монолит',
+			'pf_30_2' => 'Осм. давление 30см 2 монолит',
+			'pf_50_2' => 'Осм. давление 50см 2 монолит',
+			'pf_120_2' => 'Осм. давление 120см 2 монолит'
+		];
 	}
 
 	/**
@@ -82,6 +100,8 @@ class ChartForm extends Model {
 				$this->date_from = Yii::$app->request->post()[ 'date_from' ];
 			if ( array_key_exists( 'date_to', Yii::$app->request->post() ) )
 				$this->date_to = Yii::$app->request->post()[ 'date_to' ];
+			if ( array_key_exists( 'visible_fields', Yii::$app->request->post() ) )
+				$this->visible_fields = Yii::$app->request->post()[ 'visible_fields' ];
 		}
 
 		return $res;
