@@ -42,7 +42,7 @@ class ChartForm extends Model {
 			[ [ 'date_from', 'date_to' ], 'date', 'format' => 'php:Y-m-d' ],
 			[ 'date_from', 'default', 'value' => '2018-07-21' ],
 			[ 'date_to', 'default', 'value' => '2018-07-22' ],
-			[ 'visible_fields', 'in', 'range' => array_keys( $this->GetVisibleFields() ), 'allowArray' => true ]
+			[ 'visible_fields', 'in', 'range' => array_keys( $this->GetVisibleFieldsList() ), 'allowArray' => true ]
 		];
 	}
 
@@ -69,18 +69,154 @@ class ChartForm extends Model {
 	}
 
 	/**
-	 * Returns list of possible visible fields for a current station
+	 * Returns list of all possible visible fields for a current station
 	 * @return array
 	 */
-	public function GetVisibleFields() {
+	public function GetVisibleFieldsList() {
 		return [
-			'pf_30_1' => 'Осм. давление 30см 1 монолит',
-			'pf_50_1' => 'Осм. давление 50см 1 монолит',
-			'pf_120_1' => 'Осм. давление 120см 1 монолит',
-			'pf_30_2' => 'Осм. давление 30см 2 монолит',
-			'pf_50_2' => 'Осм. давление 50см 2 монолит',
-			'pf_120_2' => 'Осм. давление 120см 2 монолит'
+			'pf_30_1' => 'pf_30_1',
+			'pf_30_1_min' => 'pf_30_1_min',
+			'pf_30_1_max' => 'pf_30_1_max',
+			'pf_30_2' => 'pf_30_2',
+			'pf_30_2_min' => 'pf_30_2_min',
+			'pf_30_2_max' => 'pf_30_2_max',
+			'vac_30' => 'vac_30',
+			'vac_30_min' => 'vac_30_min',
+			'vac_30_max' => 'vac_30_max',
+			'pf_50_1' => 'pf_50_1',
+			'pf_50_1_min' => 'pf_50_1_min',
+			'pf_50_1_max' => 'pf_50_1_max',
+			'pf_50_2' => 'pf_50_2',
+			'pf_50_2_min' => 'pf_50_2_min',
+			'pf_50_2_max' => 'pf_50_2_max',
+			'vac_50' => 'vac_50',
+			'vac_50_min' => 'vac_50_min',
+			'vac_50_max' => 'vac_50_max',
+			'pf_120_1' => 'pf_120_1',
+			'pf_120_1_min' => 'pf_120_1_min',
+			'pf_120_1_max' => 'pf_120_1_max',
+			'pf_120_2' => 'pf_120_2',
+			'pf_120_2_min' => 'pf_120_2_min',
+			'pf_120_2_max' => 'pf_120_2_max',
+			'vac_120' => 'vac_120',
+			'vac_120_min' => 'vac_120_min',
+			'vac_120_max' => 'vac_120_max',
+			'moisture_30_1' => 'moisture_30_1',
+			'moisture_30_2' => 'moisture_30_2',
+			'moisture_50_1' => 'moisture_50_1',
+			'moisture_50_2' => 'moisture_50_2',
+			'moisture_120_1' => 'moisture_120_1',
+			'moisture_120_2' => 'moisture_120_2',
+			'e_conductivity_30_1' => 'e_conductivity_30_1',
+			'e_conductivity_30_2' => 'e_conductivity_30_2',
+			'e_conductivity_50_1' => 'e_conductivity_50_1',
+			'e_conductivity_50_2' => 'e_conductivity_50_2',
+			'e_conductivity_120_1' => 'e_conductivity_120_1',
+			'e_conductivity_120_2' => 'e_conductivity_120_2',
+			't_30_1' => 't_30_1',
+			't_30_2' => 't_30_2',
+			't_50_1' => 't_50_1',
+			't_50_2' => 't_50_2',
+			't_120_1' => 't_120_1',
+			't_120_2' => 't_120_2',
+			'weight_1' => 'weight_1',
+			'weight_2' => 'weight_2',
+			'drain_1' => 'drain_1',
+			'drain_1_min' => 'drain_1_min',
+			'drain_1_max' => 'drain_1_max',
+			'drain_2' => 'drain_2',
+			'drain_2_min' => 'drain_2_min',
+			'drain_2_max' => 'drain_2_max',
+			'accu' => 'accu',
+			'accu_min' => 'accu_min',
+			'accu_max' => 'accu_max'
 		];
+	}
+
+	/**
+	 * Returns list of all possible fields for a current station
+	 * @return array
+	 */
+	public function GetAvailableFieldsList() {
+		return [
+			[ 'name' => 'pf_30_1', 'type' => 'number' ],
+			[ 'name' => 'pf_30_1_min', 'type' => 'number' ],
+			[ 'name' => 'pf_30_1_max', 'type' => 'number' ],
+			[ 'name' => 'pf_30_2', 'type' => 'number' ],
+			[ 'name' => 'pf_30_2_min', 'type' => 'number' ],
+			[ 'name' => 'pf_30_2_max', 'type' => 'number' ],
+			[ 'name' => 'vac_30', 'type' => 'number' ],
+			[ 'name' => 'vac_30_min', 'type' => 'number' ],
+			[ 'name' => 'vac_30_max', 'type' => 'number' ],
+			[ 'name' => 'pf_50_1', 'type' => 'number' ],
+			[ 'name' => 'pf_50_1_min', 'type' => 'number' ],
+			[ 'name' => 'pf_50_1_max', 'type' => 'number' ],
+			[ 'name' => 'pf_50_2', 'type' => 'number' ],
+			[ 'name' => 'pf_50_2_min', 'type' => 'number' ],
+			[ 'name' => 'pf_50_2_max', 'type' => 'number' ],
+			[ 'name' => 'vac_50', 'type' => 'number' ],
+			[ 'name' => 'vac_50_min', 'type' => 'number' ],
+			[ 'name' => 'vac_50_max', 'type' => 'number' ],
+			[ 'name' => 'pf_120_1', 'type' => 'number' ],
+			[ 'name' => 'pf_120_1_min', 'type' => 'number' ],
+			[ 'name' => 'pf_120_1_max', 'type' => 'number' ],
+			[ 'name' => 'pf_120_2', 'type' => 'number' ],
+			[ 'name' => 'pf_120_2_min', 'type' => 'number' ],
+			[ 'name' => 'pf_120_2_max', 'type' => 'number' ],
+			[ 'name' => 'vac_120', 'type' => 'number' ],
+			[ 'name' => 'vac_120_min', 'type' => 'number' ],
+			[ 'name' => 'vac_120_max', 'type' => 'number' ],
+			[ 'name' => 'moisture_30_1', 'type' => 'number' ],
+			[ 'name' => 'moisture_30_2', 'type' => 'number' ],
+			[ 'name' => 'moisture_50_1', 'type' => 'number' ],
+			[ 'name' => 'moisture_50_2', 'type' => 'number' ],
+			[ 'name' => 'moisture_120_1', 'type' => 'number' ],
+			[ 'name' => 'moisture_120_2', 'type' => 'number' ],
+			[ 'name' => 'e_conductivity_30_1', 'type' => 'number' ],
+			[ 'name' => 'e_conductivity_30_2', 'type' => 'number' ],
+			[ 'name' => 'e_conductivity_50_1', 'type' => 'number' ],
+			[ 'name' => 'e_conductivity_50_2', 'type' => 'number' ],
+			[ 'name' => 'e_conductivity_120_1', 'type' => 'number' ],
+			[ 'name' => 'e_conductivity_120_2', 'type' => 'number' ],
+			[ 'name' => 't_30_1', 'type' => 'number' ],
+			[ 'name' => 't_30_2', 'type' => 'number' ],
+			[ 'name' => 't_50_1', 'type' => 'number' ],
+			[ 'name' => 't_50_2', 'type' => 'number' ],
+			[ 'name' => 't_120_1', 'type' => 'number' ],
+			[ 'name' => 't_120_2', 'type' => 'number' ],
+			[ 'name' => 'weight_1', 'type' => 'number' ],
+			[ 'name' => 'weight_2', 'type' => 'number' ],
+			[ 'name' => 'drain_1', 'type' => 'number' ],
+			[ 'name' => 'drain_1_min', 'type' => 'number' ],
+			[ 'name' => 'drain_1_max', 'type' => 'number' ],
+			[ 'name' => 'drain_2', 'type' => 'number' ],
+			[ 'name' => 'drain_2_min', 'type' => 'number' ],
+			[ 'name' => 'drain_2_max', 'type' => 'number' ],
+			[ 'name' => 'accu', 'type' => 'number' ],
+			[ 'name' => 'accu_min', 'type' => 'number' ],
+			[ 'name' => 'accu_max', 'type' => 'number' ]
+		];
+	}
+
+	/**
+	 * Returns the list of chosen fields for display in a chart
+	 * @return array
+	 */
+	public function GetChosenFieldsList() {
+		$tmp_list = $this->GetAvailableFieldsList();
+		$res = [];
+
+		if ( is_array( $this->visible_fields ) && count( $this->visible_fields ) ) {
+			foreach ( $tmp_list as $item ) {
+				if ( in_array( $item[ 'name' ], $this->visible_fields ) ) {
+					$res[] = $item;
+				}
+			}
+		} else {
+			$res = $tmp_list;
+		}
+
+		return $res;
 	}
 
 	/**
@@ -141,18 +277,20 @@ class ChartForm extends Model {
 	public function GetData() {
 		$res = false;
 
-		$res[ 'columns' ] = [
-			[ 'name' => 'measurement_time', 'type' => 'date' ],
-			[ 'name' => 'pf_30_1', 'type' => 'number' ],
-			[ 'name' => 'pf_50_1', 'type' => 'number' ],
-			[ 'name' => 'pf_120_1', 'type' => 'number' ],
-			[ 'name' => 'pf_30_2', 'type' => 'number' ],
-			[ 'name' => 'pf_50_2', 'type' => 'number' ],
-			[ 'name' => 'pf_120_2', 'type' => 'number' ]
-		];
+		$res[ 'columns' ][] = [ 'name' => 'measurement_time', 'type' => 'date' ];
+
+		$res[ 'columns' ] = array_merge( $res[ 'columns' ], $this->GetChosenFieldsList() );
+
+		$fields_list = '';
+		foreach ( $this->GetChosenFieldsList() as $item ) {
+			if ( strlen( $fields_list ) ) {
+				$fields_list .= ', ';
+			}
+			$fields_list .= $item[ 'name' ];
+		}
 
 		$sqlstr = "select
-  to_char( date_trunc( 'minute', measurement_time + interval '30 sec' ), 'YYYY-MM-DD HH24:MI' ) as measurement_time, pf_30_1, pf_50_1, pf_120_1, pf_30_2, pf_50_2, pf_120_2
+  to_char( date_trunc( 'minute', measurement_time + interval '30 sec' ), 'YYYY-MM-DD HH24:MI' ) as measurement_time, {$fields_list}
 from lysimetric_station_measurements
 where
 	id_station = :id_station

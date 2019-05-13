@@ -59,10 +59,10 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
 			</div>
 			<div id="rightdiv" style="float: left; margin: 10px;">
 				<?= $form->field( $model, 'visible_fields' )->listBox(
-					$model->GetVisibleFields(),
+					$model->GetVisibleFieldsList(),
 					[
 						'multiple' => true,
-						'size' => count( $model->GetVisibleFields() ),
+						'size' => count( $model->GetVisibleFieldsList() ),
 					]
 				);
 				?>
