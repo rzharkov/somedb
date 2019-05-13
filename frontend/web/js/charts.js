@@ -1,11 +1,21 @@
 google.charts.load('current', {'packages': ['corechart']});
 
 function drawChart() {
-    let a = [];
+    //first series
+    let visible_fields_1 = [];
     let tmp = document.getElementById("chartform-visible_fields").options;
-    for (i = 0; i < tmp.length; i++ ) {
+    for (i = 0; i < tmp.length; i++) {
         if (tmp[i].selected) {
-            a.push( tmp[i].value );
+            visible_fields_1.push(tmp[i].value);
+        }
+    }
+
+    //second series
+    let visible_fields_2 = [];
+    tmp = document.getElementById("chartform-visible_fields2").options;
+    for (i = 0; i < tmp.length; i++) {
+        if (tmp[i].selected) {
+            visible_fields_2.push(tmp[i].value);
         }
     }
 
@@ -16,54 +26,12 @@ function drawChart() {
             date_to: document.getElementById("chartform-date_to").value,
             id_station: document.getElementById("chartform-id_station").value,
             id_measurement_interval: document.getElementById("chartform-id_measurement_interval").value,
-            visible_fields: a
+            visible_fields: visible_fields_1.concat(visible_fields_2)
         },
         method: 'POST',
         dataType: "json",
         async: false
     }).responseText;
-
-    var options = {
-        //title: 'Simple graph',
-        curveType: 'function',
-        legend: {position: 'bottom'},
-        pointSize: 2,
-        width: '100%', height: '100%',
-        explorer: {},
-        hAxis: {
-            title: 'Date',
-            format: 'yyyy-MM-dd\nHH:mm'
-        },
-        series: {
-            3: {
-                targetAxisIndex: 1,
-                lineWidth: 1,
-                lineDashStyle: [4, 2],
-                pointShape: 'diamond',
-                pointSize: 5
-            },
-            4: {
-                targetAxisIndex: 1,
-                lineDashStyle: [4, 2],
-                pointShape: 'diamond',
-                pointSize: 5
-            },
-            5: {
-                targetAxisIndex: 1,
-                lineDashStyle: [4, 2],
-                pointShape: 'diamond',
-                pointSize: 5
-            }
-        },
-        vAxes: {
-            0: {
-                title: 'y1',
-            },
-            1: {
-                title: 'y2',
-            }
-        }
-    }
 
     jsonData = JSON.parse(jsonData);
 
@@ -90,11 +58,56 @@ function drawChart() {
                 default:
             }
         }
+
         data.addRow(jsonData.rows[i]);
     }
 
     var formatter = new google.visualization.DateFormat({pattern: "yyyy-MM-dd\nHH:mm"});
     formatter.format(data, 0);
+
+    var options = {
+        //title: 'Simple graph',
+        curveType: 'function',
+        legend: {position: 'bottom'},
+        pointSize: 2,
+        width: '100%', height: '100%',
+        explorer: {},
+        hAxis: {
+            title: 'Date',
+            format: 'yyyy-MM-dd\nHH:mm'
+        },
+        series: {
+            3: {
+                targetAxisIndex: 1,
+                lineWidth: 1,
+                lineDashStyle: [4, 2],
+                pointShape: 'diamond',
+                pointSize: 5
+            }
+        },
+        vAxes: {
+            0: {
+                title: 'y1',
+            },
+            1: {
+                title: 'y2',
+            }
+        }
+    }
+
+    console.log(visible_fields_1.length);
+    console.log(visible_fields_2.length);
+
+    for ( k = 0; k < visible_fields_2.length; k++ ) {
+        options.series[ visible_fields_1.length + k ] = {
+            targetAxisIndex: 1,
+            lineDashStyle: [4, 2],
+            pointShape: 'diamond',
+            pointSize: 5
+        };
+    }
+
+    console.log(options.series);
 
     window.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 

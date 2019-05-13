@@ -22,6 +22,7 @@ class ChartForm extends Model {
 	public $date_from;
 	public $date_to;
 	public $visible_fields;
+	public $visible_fields2;
 
 	/**
 	 * {@inheritdoc}
@@ -42,7 +43,8 @@ class ChartForm extends Model {
 			[ [ 'date_from', 'date_to' ], 'date', 'format' => 'php:Y-m-d' ],
 			[ 'date_from', 'default', 'value' => '2018-07-21' ],
 			[ 'date_to', 'default', 'value' => '2018-07-22' ],
-			[ 'visible_fields', 'in', 'range' => array_keys( $this->GetVisibleFieldsList() ), 'allowArray' => true ]
+			[ 'visible_fields', 'in', 'range' => array_keys( $this->GetVisibleFieldsList() ), 'allowArray' => true ],
+			[ 'visible_fields2', 'in', 'range' => array_keys( $this->GetVisibleFieldsList() ), 'allowArray' => true ]
 		];
 	}
 
@@ -56,7 +58,8 @@ class ChartForm extends Model {
 			'id_measurement_interval' => 'Интервал измерений',
 			'date_from' => 'Начало',
 			'date_to' => 'Конец',
-			'visible_fields' => 'Отображать поля'
+			'visible_fields' => 'Отображать поля',
+			'visible_fields2' => 'Отображать поля ( правая ось )'
 		];
 	}
 
@@ -139,62 +142,62 @@ class ChartForm extends Model {
 	 */
 	public function GetAvailableFieldsList() {
 		return [
-			[ 'name' => 'pf_30_1', 'type' => 'number' ],
-			[ 'name' => 'pf_30_1_min', 'type' => 'number' ],
-			[ 'name' => 'pf_30_1_max', 'type' => 'number' ],
-			[ 'name' => 'pf_30_2', 'type' => 'number' ],
-			[ 'name' => 'pf_30_2_min', 'type' => 'number' ],
-			[ 'name' => 'pf_30_2_max', 'type' => 'number' ],
-			[ 'name' => 'vac_30', 'type' => 'number' ],
-			[ 'name' => 'vac_30_min', 'type' => 'number' ],
-			[ 'name' => 'vac_30_max', 'type' => 'number' ],
-			[ 'name' => 'pf_50_1', 'type' => 'number' ],
-			[ 'name' => 'pf_50_1_min', 'type' => 'number' ],
-			[ 'name' => 'pf_50_1_max', 'type' => 'number' ],
-			[ 'name' => 'pf_50_2', 'type' => 'number' ],
-			[ 'name' => 'pf_50_2_min', 'type' => 'number' ],
-			[ 'name' => 'pf_50_2_max', 'type' => 'number' ],
-			[ 'name' => 'vac_50', 'type' => 'number' ],
-			[ 'name' => 'vac_50_min', 'type' => 'number' ],
-			[ 'name' => 'vac_50_max', 'type' => 'number' ],
-			[ 'name' => 'pf_120_1', 'type' => 'number' ],
-			[ 'name' => 'pf_120_1_min', 'type' => 'number' ],
-			[ 'name' => 'pf_120_1_max', 'type' => 'number' ],
-			[ 'name' => 'pf_120_2', 'type' => 'number' ],
-			[ 'name' => 'pf_120_2_min', 'type' => 'number' ],
-			[ 'name' => 'pf_120_2_max', 'type' => 'number' ],
-			[ 'name' => 'vac_120', 'type' => 'number' ],
-			[ 'name' => 'vac_120_min', 'type' => 'number' ],
-			[ 'name' => 'vac_120_max', 'type' => 'number' ],
-			[ 'name' => 'moisture_30_1', 'type' => 'number' ],
-			[ 'name' => 'moisture_30_2', 'type' => 'number' ],
-			[ 'name' => 'moisture_50_1', 'type' => 'number' ],
-			[ 'name' => 'moisture_50_2', 'type' => 'number' ],
-			[ 'name' => 'moisture_120_1', 'type' => 'number' ],
-			[ 'name' => 'moisture_120_2', 'type' => 'number' ],
-			[ 'name' => 'e_conductivity_30_1', 'type' => 'number' ],
-			[ 'name' => 'e_conductivity_30_2', 'type' => 'number' ],
-			[ 'name' => 'e_conductivity_50_1', 'type' => 'number' ],
-			[ 'name' => 'e_conductivity_50_2', 'type' => 'number' ],
-			[ 'name' => 'e_conductivity_120_1', 'type' => 'number' ],
-			[ 'name' => 'e_conductivity_120_2', 'type' => 'number' ],
-			[ 'name' => 't_30_1', 'type' => 'number' ],
-			[ 'name' => 't_30_2', 'type' => 'number' ],
-			[ 'name' => 't_50_1', 'type' => 'number' ],
-			[ 'name' => 't_50_2', 'type' => 'number' ],
-			[ 'name' => 't_120_1', 'type' => 'number' ],
-			[ 'name' => 't_120_2', 'type' => 'number' ],
-			[ 'name' => 'weight_1', 'type' => 'number' ],
-			[ 'name' => 'weight_2', 'type' => 'number' ],
-			[ 'name' => 'drain_1', 'type' => 'number' ],
-			[ 'name' => 'drain_1_min', 'type' => 'number' ],
-			[ 'name' => 'drain_1_max', 'type' => 'number' ],
-			[ 'name' => 'drain_2', 'type' => 'number' ],
-			[ 'name' => 'drain_2_min', 'type' => 'number' ],
-			[ 'name' => 'drain_2_max', 'type' => 'number' ],
-			[ 'name' => 'accu', 'type' => 'number' ],
-			[ 'name' => 'accu_min', 'type' => 'number' ],
-			[ 'name' => 'accu_max', 'type' => 'number' ]
+			'pf_30_1' => [ 'name' => 'pf_30_1', 'type' => 'number' ],
+			'pf_30_1_min' => [ 'name' => 'pf_30_1_min', 'type' => 'number' ],
+			'pf_30_1_max' => [ 'name' => 'pf_30_1_max', 'type' => 'number' ],
+			'pf_30_2' => [ 'name' => 'pf_30_2', 'type' => 'number' ],
+			'pf_30_2_min' => [ 'name' => 'pf_30_2_min', 'type' => 'number' ],
+			'pf_30_2_max' => [ 'name' => 'pf_30_2_max', 'type' => 'number' ],
+			'vac_30' => [ 'name' => 'vac_30', 'type' => 'number' ],
+			'vac_30_min' => [ 'name' => 'vac_30_min', 'type' => 'number' ],
+			'vac_30_max' => [ 'name' => 'vac_30_max', 'type' => 'number' ],
+			'pf_50_1' => [ 'name' => 'pf_50_1', 'type' => 'number' ],
+			'pf_50_1_min' => [ 'name' => 'pf_50_1_min', 'type' => 'number' ],
+			'pf_50_1_max' => [ 'name' => 'pf_50_1_max', 'type' => 'number' ],
+			'pf_50_2' => [ 'name' => 'pf_50_2', 'type' => 'number' ],
+			'pf_50_2_min' => [ 'name' => 'pf_50_2_min', 'type' => 'number' ],
+			'pf_50_2_max' => [ 'name' => 'pf_50_2_max', 'type' => 'number' ],
+			'vac_50' => [ 'name' => 'vac_50', 'type' => 'number' ],
+			'vac_50_min' => [ 'name' => 'vac_50_min', 'type' => 'number' ],
+			'vac_50_max' => [ 'name' => 'vac_50_max', 'type' => 'number' ],
+			'pf_120_1' => [ 'name' => 'pf_120_1', 'type' => 'number' ],
+			'pf_120_1_min' => [ 'name' => 'pf_120_1_min', 'type' => 'number' ],
+			'pf_120_1_max' => [ 'name' => 'pf_120_1_max', 'type' => 'number' ],
+			'pf_120_2' => [ 'name' => 'pf_120_2', 'type' => 'number' ],
+			'pf_120_2_min' => [ 'name' => 'pf_120_2_min', 'type' => 'number' ],
+			'pf_120_2_max' => [ 'name' => 'pf_120_2_max', 'type' => 'number' ],
+			'vac_120' => [ 'name' => 'vac_120', 'type' => 'number' ],
+			'vac_120_min' => [ 'name' => 'vac_120_min', 'type' => 'number' ],
+			'vac_120_max' => [ 'name' => 'vac_120_max', 'type' => 'number' ],
+			'moisture_30_1' => [ 'name' => 'moisture_30_1', 'type' => 'number' ],
+			'moisture_30_2' => [ 'name' => 'moisture_30_2', 'type' => 'number' ],
+			'moisture_50_1' => [ 'name' => 'moisture_50_1', 'type' => 'number' ],
+			'moisture_50_2' => [ 'name' => 'moisture_50_2', 'type' => 'number' ],
+			'moisture_120_1' => [ 'name' => 'moisture_120_1', 'type' => 'number' ],
+			'moisture_120_2' => [ 'name' => 'moisture_120_2', 'type' => 'number' ],
+			'e_conductivity_30_1' => [ 'name' => 'e_conductivity_30_1', 'type' => 'number' ],
+			'e_conductivity_30_2' => [ 'name' => 'e_conductivity_30_2', 'type' => 'number' ],
+			'e_conductivity_50_1' => [ 'name' => 'e_conductivity_50_1', 'type' => 'number' ],
+			'e_conductivity_50_2' => [ 'name' => 'e_conductivity_50_2', 'type' => 'number' ],
+			'e_conductivity_120_1' => [ 'name' => 'e_conductivity_120_1', 'type' => 'number' ],
+			'e_conductivity_120_2' => [ 'name' => 'e_conductivity_120_2', 'type' => 'number' ],
+			't_30_1' => [ 'name' => 't_30_1', 'type' => 'number' ],
+			't_30_2' => [ 'name' => 't_30_2', 'type' => 'number' ],
+			't_50_1' => [ 'name' => 't_50_1', 'type' => 'number' ],
+			't_50_2' => [ 'name' => 't_50_2', 'type' => 'number' ],
+			't_120_1' => [ 'name' => 't_120_1', 'type' => 'number' ],
+			't_120_2' => [ 'name' => 't_120_2', 'type' => 'number' ],
+			'weight_1' => [ 'name' => 'weight_1', 'type' => 'number' ],
+			'weight_2' => [ 'name' => 'weight_2', 'type' => 'number' ],
+			'drain_1' => [ 'name' => 'drain_1', 'type' => 'number' ],
+			'drain_1_min' => [ 'name' => 'drain_1_min', 'type' => 'number' ],
+			'drain_1_max' => [ 'name' => 'drain_1_max', 'type' => 'number' ],
+			'drain_2' => [ 'name' => 'drain_2', 'type' => 'number' ],
+			'drain_2_min' => [ 'name' => 'drain_2_min', 'type' => 'number' ],
+			'drain_2_max' => [ 'name' => 'drain_2_max', 'type' => 'number' ],
+			'accu' => [ 'name' => 'accu', 'type' => 'number' ],
+			'accu_min' => [ 'name' => 'accu_min', 'type' => 'number' ],
+			'accu_max' => [ 'name' => 'accu_max', 'type' => 'number' ]
 		];
 	}
 
@@ -206,14 +209,8 @@ class ChartForm extends Model {
 		$tmp_list = $this->GetAvailableFieldsList();
 		$res = [];
 
-		if ( is_array( $this->visible_fields ) && count( $this->visible_fields ) ) {
-			foreach ( $tmp_list as $item ) {
-				if ( in_array( $item[ 'name' ], $this->visible_fields ) ) {
-					$res[] = $item;
-				}
-			}
-		} else {
-			$res = $tmp_list;
+		foreach ( $this->visible_fields as $field ) {
+			$res[] = $tmp_list[ $field ];
 		}
 
 		return $res;
@@ -282,11 +279,13 @@ class ChartForm extends Model {
 		$res[ 'columns' ] = array_merge( $res[ 'columns' ], $this->GetChosenFieldsList() );
 
 		$fields_list = '';
+		$i = 0;
 		foreach ( $this->GetChosenFieldsList() as $item ) {
 			if ( strlen( $fields_list ) ) {
 				$fields_list .= ', ';
 			}
-			$fields_list .= $item[ 'name' ];
+			$fields_list .= $item[ 'name' ] . ' as ' . $item[ 'name' ] . "{$i}"; //hack: query selects only once fields with the same names
+			$i++;
 		}
 
 		$sqlstr = "select
@@ -317,6 +316,8 @@ order by measurement_time";
 			}
 			$res[ 'rows' ][] = $tmp;
 		}
+
+		//var_dump( $res );
 
 		return $res;
 	}

@@ -57,8 +57,18 @@ $this->params[ 'breadcrumbs' ][] = $this->title;
 					],
 				] ); ?>
 			</div>
-			<div id="rightdiv" style="float: left; margin: 10px;">
+			<div id="fields_list_div" style="float: left; margin: 10px;">
 				<?= $form->field( $model, 'visible_fields' )->listBox(
+					$model->GetVisibleFieldsList(),
+					[
+						'multiple' => true,
+						'size' => count( $model->GetVisibleFieldsList() ),
+					]
+				);
+				?>
+			</div>
+			<div id="fields_list2_div" style="float: left; margin: 10px;">
+				<?= $form->field( $model, 'visible_fields2' )->listBox(
 					$model->GetVisibleFieldsList(),
 					[
 						'multiple' => true,
