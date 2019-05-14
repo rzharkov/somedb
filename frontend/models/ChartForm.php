@@ -194,8 +194,6 @@ class ChartForm extends Model {
 	public function GetData() {
 		$res = false;
 
-		$AvailableFieldsList = $this->GetAvailableFieldsList();
-
 		$tmp[] = [ 'name' => 'measurement_time', 'type' => 'date' ];
 		$tmp = array_merge( $tmp, $this->GetChosenFieldsList() );
 
@@ -245,9 +243,7 @@ order by measurement_time";
 			$tmp_measurement_time = $row[ 'measurement_time' ];
 			foreach ( $row as $key => $value ) {
 				$tmp[] = $value;
-				//var_dump( $this->GetChosenFieldsList()[$i] );
-				//var_dump( $i );
-				if ( $first_column_flag ) {
+				if ( $first_column_flag ) { //add tooltip for the point
 					$first_column_flag = false;
 				} else {
 					$tmp[] = "<nobr>{$tmp_measurement_time}</nobr><br/><b>{$value}</b> {$this->GetChosenFieldsList()[$i]['unit']}";
@@ -256,9 +252,6 @@ order by measurement_time";
 			}
 			$res[ 'rows' ][] = $tmp;
 		}
-
-		//var_dump( $res[ 'rows' ] );
-		//die();
 
 		return $res;
 	}

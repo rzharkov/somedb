@@ -93,19 +93,12 @@ function drawChart() {
         }
     }
 
-    //console.log(visible_fields_1.length);
-    //console.log(visible_fields_2.length);
-
     for ( k = 0; k < visible_fields_2.length; k++ ) {
         options.series[ visible_fields_1.length + k ] = {
             targetAxisIndex: 1,
             lineDashStyle: [4, 2],
-            pointShape: 'diamond',
-            pointSize: 5
         };
     }
-
-    //console.log(options.series);
 
     window.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
