@@ -246,7 +246,7 @@ order by measurement_time";
 				if ( $first_column_flag ) { //add tooltip for the point
 					$first_column_flag = false;
 				} else {
-					$tmp[] = "<nobr>{$tmp_measurement_time}</nobr><br/><b>{$value}</b> {$this->GetChosenFieldsList()[$i]['unit']}";
+					$tmp[] = "<nobr>{$tmp_measurement_time}</nobr><br/><b>{$value}</b>&nbsp;{$this->GetChosenFieldsList()[$i]['unit']}<br/>{$this->GetChosenFieldsList()[$i]['description']}";
 					$i++;
 				}
 			}
