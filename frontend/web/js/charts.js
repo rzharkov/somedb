@@ -38,7 +38,11 @@ function drawChart() {
     var data = new google.visualization.DataTable();
 
     for (i in jsonData.columns) {
-        data.addColumn(jsonData.columns[i].type, jsonData.columns[i].name);
+        if ( jsonData.columns[i].role != 'tooltip' ) {
+            data.addColumn(jsonData.columns[i].type, jsonData.columns[i].name);
+        } else {
+            data.addColumn( {type: 'string', role: 'tooltip', 'p': {'html': true}} );
+        }
     }
 
     if (jsonData.rows.length < 2) {
@@ -72,18 +76,12 @@ function drawChart() {
         pointSize: 2,
         width: '100%', height: '100%',
         explorer: {},
+        tooltip: {isHtml: true},
         hAxis: {
             title: 'Date',
             format: 'yyyy-MM-dd\nHH:mm'
         },
         series: {
-            3: {
-                targetAxisIndex: 1,
-                lineWidth: 1,
-                lineDashStyle: [4, 2],
-                pointShape: 'diamond',
-                pointSize: 5
-            }
         },
         vAxes: {
             0: {
@@ -95,8 +93,8 @@ function drawChart() {
         }
     }
 
-    console.log(visible_fields_1.length);
-    console.log(visible_fields_2.length);
+    //console.log(visible_fields_1.length);
+    //console.log(visible_fields_2.length);
 
     for ( k = 0; k < visible_fields_2.length; k++ ) {
         options.series[ visible_fields_1.length + k ] = {
@@ -107,7 +105,7 @@ function drawChart() {
         };
     }
 
-    console.log(options.series);
+    //console.log(options.series);
 
     window.chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 

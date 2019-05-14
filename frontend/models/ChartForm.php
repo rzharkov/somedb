@@ -23,12 +23,16 @@ class ChartForm extends Model {
 	public $date_to;
 	public $visible_fields;
 	public $visible_fields2;
+	private $station;
+	private $station_type;
+
 
 	/**
 	 * {@inheritdoc}
 	 */
 	function __construct() {
 		parent::__construct();
+		$this->id_station = ChartForm::GetDeafult_id_station();
 	}
 
 	/**
@@ -37,7 +41,7 @@ class ChartForm extends Model {
 	public function rules() {
 		return [
 			[ [ 'id_station', 'id_measurement_interval' ], 'integer', 'min' => 1 ],
-			[ 'id_station', 'default', 'value' => 8 ],
+			[ 'id_station', 'default', 'value' => ChartForm::GetDeafult_id_station() ],
 			[ 'id_measurement_interval', 'default', 'value' => 2 ],
 			[ [ 'id_station', 'id_measurement_interval' ], 'required' ],
 			[ [ 'date_from', 'date_to' ], 'date', 'format' => 'php:Y-m-d' ],
@@ -76,64 +80,15 @@ class ChartForm extends Model {
 	 * @return array
 	 */
 	public function GetVisibleFieldsList() {
-		return [
-			'pf_30_1' => 'pf_30_1',
-			'pf_30_1_min' => 'pf_30_1_min',
-			'pf_30_1_max' => 'pf_30_1_max',
-			'pf_30_2' => 'pf_30_2',
-			'pf_30_2_min' => 'pf_30_2_min',
-			'pf_30_2_max' => 'pf_30_2_max',
-			'vac_30' => 'vac_30',
-			'vac_30_min' => 'vac_30_min',
-			'vac_30_max' => 'vac_30_max',
-			'pf_50_1' => 'pf_50_1',
-			'pf_50_1_min' => 'pf_50_1_min',
-			'pf_50_1_max' => 'pf_50_1_max',
-			'pf_50_2' => 'pf_50_2',
-			'pf_50_2_min' => 'pf_50_2_min',
-			'pf_50_2_max' => 'pf_50_2_max',
-			'vac_50' => 'vac_50',
-			'vac_50_min' => 'vac_50_min',
-			'vac_50_max' => 'vac_50_max',
-			'pf_120_1' => 'pf_120_1',
-			'pf_120_1_min' => 'pf_120_1_min',
-			'pf_120_1_max' => 'pf_120_1_max',
-			'pf_120_2' => 'pf_120_2',
-			'pf_120_2_min' => 'pf_120_2_min',
-			'pf_120_2_max' => 'pf_120_2_max',
-			'vac_120' => 'vac_120',
-			'vac_120_min' => 'vac_120_min',
-			'vac_120_max' => 'vac_120_max',
-			'moisture_30_1' => 'moisture_30_1',
-			'moisture_30_2' => 'moisture_30_2',
-			'moisture_50_1' => 'moisture_50_1',
-			'moisture_50_2' => 'moisture_50_2',
-			'moisture_120_1' => 'moisture_120_1',
-			'moisture_120_2' => 'moisture_120_2',
-			'e_conductivity_30_1' => 'e_conductivity_30_1',
-			'e_conductivity_30_2' => 'e_conductivity_30_2',
-			'e_conductivity_50_1' => 'e_conductivity_50_1',
-			'e_conductivity_50_2' => 'e_conductivity_50_2',
-			'e_conductivity_120_1' => 'e_conductivity_120_1',
-			'e_conductivity_120_2' => 'e_conductivity_120_2',
-			't_30_1' => 't_30_1',
-			't_30_2' => 't_30_2',
-			't_50_1' => 't_50_1',
-			't_50_2' => 't_50_2',
-			't_120_1' => 't_120_1',
-			't_120_2' => 't_120_2',
-			'weight_1' => 'weight_1',
-			'weight_2' => 'weight_2',
-			'drain_1' => 'drain_1',
-			'drain_1_min' => 'drain_1_min',
-			'drain_1_max' => 'drain_1_max',
-			'drain_2' => 'drain_2',
-			'drain_2_min' => 'drain_2_min',
-			'drain_2_max' => 'drain_2_max',
-			'accu' => 'accu',
-			'accu_min' => 'accu_min',
-			'accu_max' => 'accu_max'
-		];
+		$res = [];
+
+		foreach ( $this->GetAvailableFieldsList() as $key => $value ) {
+			if ( $key != 'measurement_time' ) {
+				$res[ $key ] = $key . ' ( ' . $value[ 'unit' ] . ' ) ';
+			}
+		}
+
+		return $res;
 	}
 
 	/**
@@ -141,64 +96,18 @@ class ChartForm extends Model {
 	 * @return array
 	 */
 	public function GetAvailableFieldsList() {
-		return [
-			'pf_30_1' => [ 'name' => 'pf_30_1', 'type' => 'number' ],
-			'pf_30_1_min' => [ 'name' => 'pf_30_1_min', 'type' => 'number' ],
-			'pf_30_1_max' => [ 'name' => 'pf_30_1_max', 'type' => 'number' ],
-			'pf_30_2' => [ 'name' => 'pf_30_2', 'type' => 'number' ],
-			'pf_30_2_min' => [ 'name' => 'pf_30_2_min', 'type' => 'number' ],
-			'pf_30_2_max' => [ 'name' => 'pf_30_2_max', 'type' => 'number' ],
-			'vac_30' => [ 'name' => 'vac_30', 'type' => 'number' ],
-			'vac_30_min' => [ 'name' => 'vac_30_min', 'type' => 'number' ],
-			'vac_30_max' => [ 'name' => 'vac_30_max', 'type' => 'number' ],
-			'pf_50_1' => [ 'name' => 'pf_50_1', 'type' => 'number' ],
-			'pf_50_1_min' => [ 'name' => 'pf_50_1_min', 'type' => 'number' ],
-			'pf_50_1_max' => [ 'name' => 'pf_50_1_max', 'type' => 'number' ],
-			'pf_50_2' => [ 'name' => 'pf_50_2', 'type' => 'number' ],
-			'pf_50_2_min' => [ 'name' => 'pf_50_2_min', 'type' => 'number' ],
-			'pf_50_2_max' => [ 'name' => 'pf_50_2_max', 'type' => 'number' ],
-			'vac_50' => [ 'name' => 'vac_50', 'type' => 'number' ],
-			'vac_50_min' => [ 'name' => 'vac_50_min', 'type' => 'number' ],
-			'vac_50_max' => [ 'name' => 'vac_50_max', 'type' => 'number' ],
-			'pf_120_1' => [ 'name' => 'pf_120_1', 'type' => 'number' ],
-			'pf_120_1_min' => [ 'name' => 'pf_120_1_min', 'type' => 'number' ],
-			'pf_120_1_max' => [ 'name' => 'pf_120_1_max', 'type' => 'number' ],
-			'pf_120_2' => [ 'name' => 'pf_120_2', 'type' => 'number' ],
-			'pf_120_2_min' => [ 'name' => 'pf_120_2_min', 'type' => 'number' ],
-			'pf_120_2_max' => [ 'name' => 'pf_120_2_max', 'type' => 'number' ],
-			'vac_120' => [ 'name' => 'vac_120', 'type' => 'number' ],
-			'vac_120_min' => [ 'name' => 'vac_120_min', 'type' => 'number' ],
-			'vac_120_max' => [ 'name' => 'vac_120_max', 'type' => 'number' ],
-			'moisture_30_1' => [ 'name' => 'moisture_30_1', 'type' => 'number' ],
-			'moisture_30_2' => [ 'name' => 'moisture_30_2', 'type' => 'number' ],
-			'moisture_50_1' => [ 'name' => 'moisture_50_1', 'type' => 'number' ],
-			'moisture_50_2' => [ 'name' => 'moisture_50_2', 'type' => 'number' ],
-			'moisture_120_1' => [ 'name' => 'moisture_120_1', 'type' => 'number' ],
-			'moisture_120_2' => [ 'name' => 'moisture_120_2', 'type' => 'number' ],
-			'e_conductivity_30_1' => [ 'name' => 'e_conductivity_30_1', 'type' => 'number' ],
-			'e_conductivity_30_2' => [ 'name' => 'e_conductivity_30_2', 'type' => 'number' ],
-			'e_conductivity_50_1' => [ 'name' => 'e_conductivity_50_1', 'type' => 'number' ],
-			'e_conductivity_50_2' => [ 'name' => 'e_conductivity_50_2', 'type' => 'number' ],
-			'e_conductivity_120_1' => [ 'name' => 'e_conductivity_120_1', 'type' => 'number' ],
-			'e_conductivity_120_2' => [ 'name' => 'e_conductivity_120_2', 'type' => 'number' ],
-			't_30_1' => [ 'name' => 't_30_1', 'type' => 'number' ],
-			't_30_2' => [ 'name' => 't_30_2', 'type' => 'number' ],
-			't_50_1' => [ 'name' => 't_50_1', 'type' => 'number' ],
-			't_50_2' => [ 'name' => 't_50_2', 'type' => 'number' ],
-			't_120_1' => [ 'name' => 't_120_1', 'type' => 'number' ],
-			't_120_2' => [ 'name' => 't_120_2', 'type' => 'number' ],
-			'weight_1' => [ 'name' => 'weight_1', 'type' => 'number' ],
-			'weight_2' => [ 'name' => 'weight_2', 'type' => 'number' ],
-			'drain_1' => [ 'name' => 'drain_1', 'type' => 'number' ],
-			'drain_1_min' => [ 'name' => 'drain_1_min', 'type' => 'number' ],
-			'drain_1_max' => [ 'name' => 'drain_1_max', 'type' => 'number' ],
-			'drain_2' => [ 'name' => 'drain_2', 'type' => 'number' ],
-			'drain_2_min' => [ 'name' => 'drain_2_min', 'type' => 'number' ],
-			'drain_2_max' => [ 'name' => 'drain_2_max', 'type' => 'number' ],
-			'accu' => [ 'name' => 'accu', 'type' => 'number' ],
-			'accu_min' => [ 'name' => 'accu_min', 'type' => 'number' ],
-			'accu_max' => [ 'name' => 'accu_max', 'type' => 'number' ]
-		];
+		$res = [];
+
+		foreach ( $this->station_type->data_format as $data_item ) {
+			$res[ $data_item[ 'column_name' ] ] = [
+				'name' => $data_item[ 'column_name' ],
+				'type' => 'number',
+				'description' => $data_item[ 'description' ],
+				'unit' => $data_item[ 'unit' ]
+			];
+		}
+
+		return $res;
 	}
 
 	/**
@@ -214,7 +123,7 @@ class ChartForm extends Model {
 				$res[] = $tmp_list[ $field ];
 			}
 		} else {
-			$res[] = $tmp_list['pf_30_1'];
+			$res[] = $tmp_list[ 'pf_30_1' ];
 		}
 
 		return $res;
@@ -241,7 +150,14 @@ class ChartForm extends Model {
 				$this->visible_fields = Yii::$app->request->post()[ 'visible_fields' ];
 		}
 
+		$this->station = Station::findById( $this->id_station );
+		$this->station_type = StationType::findById( $this->station->id_type );
+
 		return $res;
+	}
+
+	public static function GetDeafult_id_station() {
+		return 8;
 	}
 
 	/**
@@ -278,9 +194,18 @@ class ChartForm extends Model {
 	public function GetData() {
 		$res = false;
 
-		$res[ 'columns' ][] = [ 'name' => 'measurement_time', 'type' => 'date' ];
+		$AvailableFieldsList = $this->GetAvailableFieldsList();
 
-		$res[ 'columns' ] = array_merge( $res[ 'columns' ], $this->GetChosenFieldsList() );
+		$tmp[] = [ 'name' => 'measurement_time', 'type' => 'date' ];
+		$tmp = array_merge( $tmp, $this->GetChosenFieldsList() );
+
+		//after an each column add a tooltip
+		foreach ( $tmp as $item ) {
+			$res[ 'columns' ][] = $item;
+			if ( $item[ 'name' ] != 'measurement_time' ) {
+				$res[ 'columns' ][] = [ 'name' => $item[ 'name' ] . '_tooltip', 'type' => 'string', 'role' => 'tooltip' ];
+			}
+		}
 
 		$fields_list = '';
 		$i = 0;
@@ -315,13 +240,25 @@ order by measurement_time";
 		$res[ 'rows' ] = [];
 		foreach ( $query as $row ) {
 			$tmp = [];
+			$i = 0;
+			$first_column_flag = true;
+			$tmp_measurement_time = $row[ 'measurement_time' ];
 			foreach ( $row as $key => $value ) {
 				$tmp[] = $value;
+				//var_dump( $this->GetChosenFieldsList()[$i] );
+				//var_dump( $i );
+				if ( $first_column_flag ) {
+					$first_column_flag = false;
+				} else {
+					$tmp[] = "<nobr>{$tmp_measurement_time}</nobr><br/><b>{$value}</b> {$this->GetChosenFieldsList()[$i]['unit']}";
+					$i++;
+				}
 			}
 			$res[ 'rows' ][] = $tmp;
 		}
 
-		//var_dump( $res );
+		//var_dump( $res[ 'rows' ] );
+		//die();
 
 		return $res;
 	}
