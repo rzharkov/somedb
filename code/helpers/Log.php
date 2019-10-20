@@ -7,7 +7,7 @@ use Yii;
 
 class Log {
 
-    const DEFAULT_CATEGORY = 'shmdb';
+    const DEFAULT_CATEGORY = 'somedb';
 
     /**
      * @param $message

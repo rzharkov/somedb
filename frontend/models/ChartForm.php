@@ -32,7 +32,7 @@ class ChartForm extends Model {
 	 */
 	function __construct() {
 		parent::__construct();
-		$this->id_station = ChartForm::GetDeafult_id_station();
+		$this->id_station = ChartForm::GetDefault_id_station();
 	}
 
 	/**
@@ -41,7 +41,7 @@ class ChartForm extends Model {
 	public function rules() {
 		return [
 			[ [ 'id_station', 'id_measurement_interval' ], 'integer', 'min' => 1 ],
-			[ 'id_station', 'default', 'value' => ChartForm::GetDeafult_id_station() ],
+			[ 'id_station', 'default', 'value' => ChartForm::GetDefault_id_station() ],
 			[ 'id_measurement_interval', 'default', 'value' => 2 ],
 			[ [ 'id_station', 'id_measurement_interval' ], 'required' ],
 			[ [ 'date_from', 'date_to' ], 'date', 'format' => 'php:Y-m-d' ],
@@ -156,8 +156,13 @@ class ChartForm extends Model {
 		return $res;
 	}
 
-	public static function GetDeafult_id_station() {
-		return 8;
+	public static function GetDefault_id_station() {
+		$query = DB::query( "select min(id) as id from stations" );
+		$id_station = $query[0]['id'];
+		if ( $id_station === null ) {
+			throw new \Exception( "No stations found. Please, add them using admin backend.", ExceptionHelper::STATION_NOT_FOUND );
+		}
+		return $id_station;
 	}
 
 	/**
