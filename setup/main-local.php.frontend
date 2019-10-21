@@ -1,0 +1,47 @@
+<?php
+
+$config = [
+	'components' => [
+		'request' => [
+			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+			'cookieValidationKey' => 'RQ1ZniOgB9BGu8EzTE-29hTNkvNM0TPm',
+		],
+		'log' => [
+			'flushInterval' => 1,
+			'targets' => [
+				'common' => [
+					'class' => 'code\log\SwitchingFileTarget',
+					'categories' => [ \code\helpers\Log::DEFAULT_CATEGORY ],
+					'levels' => [ 'error', 'warning', 'info' ],
+					'logVars' => [],
+					'logDir' => '/var/log/local/frontend/',
+					//'logFile' => 'err.log',
+					'writeToConsole' => false,
+					'exportInterval' => 1
+				],
+				'trace' => [
+					'class' => '\yii\log\FileTarget',
+					'categories' => [],
+					'levels' => [ 'error', 'warning', 'info', 'trace', 'profile' ],
+					'logVars' => [],
+					'logFile' => '/var/log/somedb/frontend/default_' . date( 'Y-m-d' ) . '.log',
+				],
+			],
+		],
+	],
+];
+
+if ( !YII_ENV_TEST ) {
+	// configuration adjustments for 'dev' environment
+	$config[ 'bootstrap' ][] = 'debug';
+	$config[ 'modules' ][ 'debug' ] = [
+		'class' => 'yii\debug\Module',
+	];
+
+	$config[ 'bootstrap' ][] = 'gii';
+	$config[ 'modules' ][ 'gii' ] = [
+		'class' => 'yii\gii\Module',
+	];
+}
+
+return $config;

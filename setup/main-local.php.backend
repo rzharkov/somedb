@@ -1,0 +1,57 @@
+<?php
+
+$config = [
+	'components' => [
+		'request' => [
+			// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+			'cookieValidationKey' => 'R0JIvP7OXCFgBoDSy_EKwIee6mQCMa8j',
+		],
+		'db' => [
+			'class' => 'yii\db\Connection',
+			'dsn' => 'pgsql:host=localhost;dbname=somedb',
+			'username' => 'somedb_app_admin',
+			'password' => 'change_somedb_app_admin_password',
+			'charset' => 'utf8',
+			'attributes' => [
+				//PDO::ATTR_EMULATE_PREPARES => TRUE,
+			],
+		],
+		'log' => [
+			'flushInterval' => 1,
+			'targets' => [
+				'common' => [
+					'class' => 'code\log\SwitchingFileTarget',
+					'categories' => [ \code\helpers\Log::DEFAULT_CATEGORY ],
+					'levels' => [ 'error', 'warning', 'info' ],
+					'logVars' => [],
+					'logDir' => '/var/log/local/backend/',
+					//'logFile' => 'err.log',
+					'writeToConsole' => false,
+					'exportInterval' => 1
+				],
+				'trace' => [
+					'class' => '\yii\log\FileTarget',
+					'categories' => [],
+					'levels' => [ 'error', 'warning', 'info', 'trace', 'profile' ],
+					'logVars' => [],
+					'logFile' => '/var/log/somedb/backend/default_' . date( 'Y-m-d' ) . '.log',
+				],
+			],
+		],
+	],
+];
+
+if (!YII_ENV_TEST) {
+	// configuration adjustments for 'dev' environment
+	$config['bootstrap'][] = 'debug';
+	$config['modules']['debug'] = [
+		'class' => 'yii\debug\Module',
+	];
+
+	$config['bootstrap'][] = 'gii';
+	$config['modules']['gii'] = [
+		'class' => 'yii\gii\Module',
+	];
+}
+
+return $config;

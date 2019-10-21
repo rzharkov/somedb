@@ -1,0 +1,8 @@
+@echo off
+echo Starting servers...
+set PHP_FCGI_MAX_REQUESTS=0
+set SRVPATH="c:/program files/nginx"
+set PHPPATH=c:/program files/php72
+
+start /D%SRVPATH% nginx.exe
+start /D%SRVPATH% RunHiddenConsole.exe %PHPPATH%/php-cgi.exe -b 127.0.0.1:9000 -c %PHPPATH%/php.ini

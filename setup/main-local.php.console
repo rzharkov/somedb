@@ -1,0 +1,41 @@
+<?php
+return [
+	'bootstrap' => [ 'gii' ],
+	'modules' => [
+		'gii' => 'yii\gii\Module',
+	],
+	'components' => [
+		'db' => [
+			'class' => 'yii\db\Connection',
+			'dsn' => 'pgsql:host=localhost;dbname=somedb',
+			'username' => 'somedb_app_admin',
+			'password' => 'change_somedb_app_admin_password',
+			'charset' => 'utf8',
+			'attributes' => [
+				//PDO::ATTR_EMULATE_PREPARES => TRUE,
+			],
+		],
+		'log' => [
+			'flushInterval' => 1,
+			'targets' => [
+				'common' => [
+					'class' => 'code\log\SwitchingFileTarget',
+					'categories' => [ \code\helpers\Log::DEFAULT_CATEGORY ],
+					'levels' => [ 'error', 'warning', 'info' ],
+					'logVars' => [],
+					'logDir' => '/var/log/local/console/',
+					//'logFile' => 'err.log',
+					'writeToConsole' => true,
+					'exportInterval' => 1
+				],
+				'trace' => [
+					'class' => '\yii\log\FileTarget',
+					'categories' => [],
+					'levels' => [ 'error', 'warning', 'info', 'trace', 'profile' ],
+					'logVars' => [],
+					'logFile' => '/var/log/somedb/console/default_' . date( 'Y-m-d' ) . '.log',
+				],
+			],
+		],
+	],
+];
